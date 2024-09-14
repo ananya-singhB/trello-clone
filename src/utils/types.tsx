@@ -15,6 +15,7 @@ export type Board = {
 export type BoardsState = {
   boards: Board[] | [];
   currentActiveBoard?: string;
+  isSidebarOpen?: boolean;
 };
 
 export enum ActionTypes {
@@ -25,6 +26,7 @@ export enum ActionTypes {
   UPDATE_CARD = "UPDATE_CARD",
   REMOVE_CARD = "REMOVE_CARD",
   SET_ACTIVE_BOARD = "SET_ACTIVE_BOARD",
+  SET_SIDEBAR_STATE = "SET_SIDEBAR_STATE",
 }
 
 export type AddNewBoardAction = {
@@ -52,6 +54,10 @@ export type SetActiveBoard = {
   type: ActionTypes.SET_ACTIVE_BOARD;
   payload: string;
 };
+export type SetSidebarState = {
+  type: ActionTypes.SET_SIDEBAR_STATE;
+  payload: boolean;
+};
 
 export type BoardActionTypes =
   | AddNewBoardAction
@@ -60,7 +66,8 @@ export type BoardActionTypes =
   | AddNewCardAction
   | RemoveCardAction
   | UpdateCardAction
-  | SetActiveBoard;
+  | SetActiveBoard
+  | SetSidebarState;
 
 export type BoardContextType = {
   state: BoardsState;

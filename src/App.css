@@ -2,23 +2,5 @@
   display: flex;
   flex-direction: row;
   height: 100vh;
-  background-color: #D7CCC8;
-}
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  background: linear-gradient(to left, #5D4037, #A1887F);
-  max-width: 20%;
-  border-right: 1px solid #A1887F;
-  color: white;
-}
-
-.app-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  align-items: center;
-  min-width: 80%;
+  background-color: #887067;
 }

@@ -60,6 +60,11 @@ const boardsReducer = (
         ...state,
         currentActiveBoard: action.payload,
       };
+    case ActionTypes.SET_SIDEBAR_STATE:
+      return {
+        ...state,
+        isSidebarOpen: action.payload,
+      };
     default:
       return state;
   }

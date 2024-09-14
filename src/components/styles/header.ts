@@ -7,6 +7,7 @@ export const AppHeader = styled.header`
   background: linear-gradient(#5d4037, #a58d84);
   align-items: center;
   color: white;
+  border-bottom: 1px solid #a1887f;
 `;
 
 export const AddBoard = styled.button`
