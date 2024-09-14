@@ -9,6 +9,7 @@ export const BoardsContext = createContext<BoardContextType | undefined>(
 export const initialBoardsState: BoardsState = {
   boards: [],
   currentActiveBoard: "",
+  isSidebarOpen: true,
 };
 
 export const BoardsProvider: React.FC<{ children: ReactNode }> = ({
