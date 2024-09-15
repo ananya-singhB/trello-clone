@@ -1,5 +1,7 @@
 import React from "react";
 import { ModalPropTypes } from "./types";
+import "./styles.css";
+import { FaTimes } from "react-icons/fa";
 
 const Modal = ({
   isOpen,
@@ -14,8 +16,10 @@ const Modal = ({
   return (
     <div className="modal-container">
       <div className="modal-header">
-        <div>{title}</div>
-        <div onClick={onClose}>close button</div>
+        <h3 className="title">{title}</h3>
+        <button className="btn" onClick={onClose} type="button">
+          <FaTimes />
+        </button>
       </div>
       <div className="modal-content">{children}</div>
       {actions && <div className="modal-actions">{actions}</div>}

@@ -8,22 +8,22 @@ const ModalActions: React.FC<ModalActionPropsType> = ({
   secondaryAction,
 }) => {
   return (
-    <div className="actions-container">
-      <div>
-        {primaryButton ? (
-          <button onClick={primaryAction}>{primaryButton}</button>
-        ) : (
-          ''
-        )}
-      </div>
+    <>
       <div>
         {secondaryButton ? (
-          <button onClick={secondaryAction}>{secondaryButton}</button>
+          <button className="secondary-button" onClick={secondaryAction}>{secondaryButton}</button>
         ) : (
           ''
         )}
       </div>
-    </div>
+      <div>
+        {primaryButton ? (
+          <button className="primary-button" onClick={primaryAction}>{primaryButton}</button>
+        ) : (
+          ''
+        )}
+      </div>
+    </>
   );
 };
 

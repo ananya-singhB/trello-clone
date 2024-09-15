@@ -61,8 +61,14 @@ const Header: React.FC = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={handleModalClose}
+        title="Create a board"
         actions={
-          <ModalActions primaryButton="Confirm" primaryAction={handleConfirm} />
+          <ModalActions
+            primaryButton="Confirm"
+            primaryAction={handleConfirm}
+            secondaryButton="Cancel"
+            secondaryAction={handleModalClose}
+          />
         }
       >
         {/** Child compnent to be defined */}
