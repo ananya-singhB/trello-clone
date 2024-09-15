@@ -79,7 +79,7 @@ export type ModalPropTypes = {
   onClose: () => void;
   children: React.ReactNode;
   title?: string;
-  actions?: React.ReactNode | undefined;
+  actions?: React.ReactNode;
 };
 
 export type ModalActionPropsType = {

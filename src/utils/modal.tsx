@@ -1,18 +1,24 @@
 import React from "react";
 import { ModalPropTypes } from "./types";
 
-const Modal: React.FC<ModalPropTypes> = ({ isOpen, onClose, children, title, actions }) => {
-  if (!isOpen) return;
+const Modal = ({
+  isOpen,
+  onClose,
+  children,
+  title,
+  actions,
+}: ModalPropTypes) => {
+  if (!isOpen) return null;
 
-  //Under development 
+  //Under development
   return (
     <div className="modal-container">
       <div className="modal-header">
-        <div>{title}</div> 
+        <div>{title}</div>
         <div onClick={onClose}>close button</div>
       </div>
       <div className="modal-content">{children}</div>
-      <div className="modal-actions">{actions}</div>
+      {actions && <div className="modal-actions">{actions}</div>}
     </div>
   );
 };

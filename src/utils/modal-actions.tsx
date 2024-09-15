@@ -13,14 +13,14 @@ const ModalActions: React.FC<ModalActionPropsType> = ({
         {primaryButton ? (
           <button onClick={primaryAction}>{primaryButton}</button>
         ) : (
-          <></>
+          ''
         )}
       </div>
       <div>
         {secondaryButton ? (
           <button onClick={secondaryAction}>{secondaryButton}</button>
         ) : (
-          <></>
+          ''
         )}
       </div>
     </div>
