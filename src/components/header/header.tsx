@@ -1,36 +1,98 @@
-import React from "react";
+import React, { useState } from "react";
 import { AddBoard, AppHeader } from "../styles/header";
 import "../styles";
 import { FaPlus } from "react-icons/fa";
 import useBoardsContext from "../context/useBoardsContext";
-import { ActionTypes } from "../../utils/types";
+import { ActionTypes, Board } from "../../utils/types";
+import Modal from "../../utils/modal";
+import ModalActions from "../../utils/modal-actions";
+import { Input, Label } from "../styles/common-styles";
 
 const Header: React.FC = () => {
-  const { state, dispatch } = useBoardsContext();
+  const {
+    state: { boards },
+    dispatch,
+  } = useBoardsContext();
+  const initialBoardState = {
+    id: "",
+    boardName: "",
+    cards: [],
+  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentBoard, setCurrentBoard] = useState<Board>({
+    id: "",
+    boardName: "",
+    cards: [],
+  });
 
   const handleAddABoard = () => {
+    setCurrentBoard((prev) => ({ ...prev, id: `${boards.length}` }));
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setCurrentBoard(initialBoardState);
+    setIsModalOpen(false);
+  };
+
+  const handleConfirm = () => {
     dispatch({
       type: ActionTypes.ADD_NEW_BOARD,
-      payload: { id: `${state.boards.length}`, boardName: `dummy ${state.boards.length}`, cards: [] },
+      payload: currentBoard,
     });
     dispatch({
       type: ActionTypes.SET_ACTIVE_BOARD,
-      payload: `${state.boards.length}`,
+      payload: `${boards.length}`,
     });
+    handleModalClose();
+  };
+
+  const children = () => {
+    return (
+      <>
+        <Label>
+          <span>Board title</span>
+          &nbsp;
+          <span className="required">*</span>
+        </Label>
+        <Input
+          value={currentBoard.boardName}
+          onChange={(e) =>
+            setCurrentBoard((prev) => ({ ...prev, boardName: e.target.value }))
+          }
+        />
+      </>
+    );
   };
 
   return (
-    <AppHeader>
-      <div className="header-content">
-        <h2>Trello Clone</h2>
-        <div>
-          <AddBoard type="button" onClick={handleAddABoard}>
-            <FaPlus />
-            &nbsp; Add a board
-          </AddBoard>
+    <>
+      <AppHeader>
+        <div className="header-content">
+          <h2>Trello Clone</h2>
+          <div>
+            <AddBoard type="button" onClick={handleAddABoard}>
+              <FaPlus />
+              &nbsp; Add a board
+            </AddBoard>
+          </div>
         </div>
-      </div>
-    </AppHeader>
+      </AppHeader>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        title="Create a board"
+        actions={
+          <ModalActions
+            primaryButton="Create"
+            primaryAction={handleConfirm}
+            secondaryButton="Cancel"
+            secondaryAction={handleModalClose}
+          />
+        }
+        children={children()}
+      />
+    </>
   );
 };
 

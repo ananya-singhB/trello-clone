@@ -13,7 +13,7 @@ const MainPage: React.FC = () => {
     "flex-direction": "column",
     flex: 1,
     "align-items": "center",
-    width: isSidebarOpen ? "80%" : "50%",
+    width: isSidebarOpen ? "80%" : "97%",
   };
 
   return (

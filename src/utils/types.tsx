@@ -73,3 +73,18 @@ export type BoardContextType = {
   state: BoardsState;
   dispatch: React.Dispatch<BoardActionTypes>;
 };
+
+export type ModalPropTypes = {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  title?: string;
+  actions?: React.ReactNode;
+};
+
+export type ModalActionPropsType = {
+  primaryButton?: string;
+  secondaryButton?: string;
+  primaryAction?: () => void;
+  secondaryAction?: () => void;
+};
