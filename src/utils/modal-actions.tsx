@@ -11,16 +11,20 @@ const ModalActions: React.FC<ModalActionPropsType> = ({
     <>
       <div>
         {secondaryButton ? (
-          <button className="secondary-button" onClick={secondaryAction}>{secondaryButton}</button>
+          <button className="secondary-button" onClick={secondaryAction}>
+            {secondaryButton}
+          </button>
         ) : (
-          ''
+          ""
         )}
       </div>
       <div>
         {primaryButton ? (
-          <button className="primary-button" onClick={primaryAction}>{primaryButton}</button>
+          <button className="primary-button" onClick={primaryAction}>
+            {primaryButton}
+          </button>
         ) : (
-          ''
+          ""
         )}
       </div>
     </>

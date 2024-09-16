@@ -6,6 +6,7 @@ import useBoardsContext from "../context/useBoardsContext";
 import { ActionTypes, Board } from "../../utils/types";
 import Modal from "../../utils/modal";
 import ModalActions from "../../utils/modal-actions";
+import { Input, Label } from "../styles/common-styles";
 
 const Header: React.FC = () => {
   const {
@@ -43,6 +44,25 @@ const Header: React.FC = () => {
       type: ActionTypes.SET_ACTIVE_BOARD,
       payload: `${boards.length}`,
     });
+    handleModalClose();
+  };
+
+  const children = () => {
+    return (
+      <>
+        <Label>
+          <span>Board title</span>
+          &nbsp;
+          <span className="required">*</span>
+        </Label>
+        <Input
+          value={currentBoard.boardName}
+          onChange={(e) =>
+            setCurrentBoard((prev) => ({ ...prev, boardName: e.target.value }))
+          }
+        />
+      </>
+    );
   };
 
   return (
@@ -64,16 +84,14 @@ const Header: React.FC = () => {
         title="Create a board"
         actions={
           <ModalActions
-            primaryButton="Confirm"
+            primaryButton="Create"
             primaryAction={handleConfirm}
             secondaryButton="Cancel"
             secondaryAction={handleModalClose}
           />
         }
-      >
-        {/** Child compnent to be defined */}
-        <div>currentBoard</div>
-      </Modal>
+        children={children()}
+      />
     </>
   );
 };
