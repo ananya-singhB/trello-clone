@@ -12,7 +12,6 @@ const Modal = ({
 }: ModalPropTypes) => {
   if (!isOpen) return null;
 
-  //Under development
   return (
     <div className="modal-container">
       <div className="modal-header">

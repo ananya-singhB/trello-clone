@@ -6,11 +6,10 @@
   height: 40vh;
   max-height: 50vh;
   overflow: scroll;
-  background-image: linear-gradient(to bottom, #321e17, #8b7168);
-  background-color: #795548;
-  color: #d7ccc8;
+  background-image: linear-gradient(to bottom, #DCA2E6, #e0dbe1);
+  color: #7b1fa2;
   margin-top: 20vh;
-  border: 1px solid #a1887f;
+  border: 1px solid #e3b8ec;
   border-radius: 25px;
   z-index: 1000;
   position: fixed;
@@ -21,13 +20,13 @@
   flex-direction: row;
   padding: 10px;
   height: 5vh;
-  border-bottom: 1px solid #8b7168;
+  border-bottom: 1px solid #c9a1d1;
   justify-content: space-between;
   align-items: center;
   font-weight: bold;
 
   > .title {
-    color: #d7ccc8;
+    color: #7b1fa2;
   }
 }
 
@@ -43,7 +42,7 @@
 .modal-actions {
   display: flex;
   flex-direction: row;
-  border-top: 1px solid #a1887f;
+  border-top: 1px solid #e3bfeb;
   justify-content: space-between;
   align-items: center;
   padding: 10px 15px;
@@ -53,8 +52,8 @@
 .primary-button {
   border: 0;
   border-radius: 5px;
-  color: #321e17;
-  background-image: linear-gradient(white, #d7ccc8);
+  color: #7B1FA2;
+  background-image: linear-gradient(white, #dd9fea);
   cursor: pointer;
   justify-content: center;
   padding: 8px;
@@ -65,8 +64,8 @@
 .secondary-button {
   border: 0;
   border-radius: 5px;
-  color: #d7ccc8;
-  background-image: linear-gradient(#321e17, #795548);
+  color: #7B1FA2;
+  background-image: linear-gradient(#dd9fea, white);
   cursor: pointer;
   justify-content: center;
   padding: 8px;
@@ -78,9 +77,12 @@
   cursor: pointer;
   line-height: 1;
   background: inherit;
-  border-radius: 4px;
+  color: #7b1fa2;
+  border: 0;
 
   :hover {
-    color: #d7ccc8;
+    background-color: #EEDDF1;
+    padding: 2px;
+    border-radius: 2px;
   }
 }

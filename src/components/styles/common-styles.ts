@@ -25,7 +25,7 @@ export const Input = styled.input`
   border-radius: 5px;
   border: 0;
   width: 85%;
-  background-color: #d7ccc8;
+  background-color: #EEDDF1;
   font-size: 14px;
 
   &:hover {
