@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Home } from "../styles/common-styles";
 import useBoardsContext from "../context/useBoardsContext";
-import CustomAddButton from "../../utils/custom-add-button";
+import AddListOrCard from "./add-list-card";
 
 // Under Development
 const HomePage: React.FC = () => {
@@ -9,6 +9,7 @@ const HomePage: React.FC = () => {
     state: { currentActiveBoard, boards },
   } = useBoardsContext();
   const [toAddList, setIsToAddList] = useState(false);
+
   return (
     <Home>
       <div>
@@ -23,18 +24,12 @@ const HomePage: React.FC = () => {
               </div>
             ))}
       </div>
-      <div>
-        {toAddList ? (
-          <CustomAddButton
-            title={boards.length ? "Add another list" : "Add a llist"}
-            handleClick={() => setIsToAddList(true)}
-          />
-        ) : (
-          <div onClick={() => setIsToAddList(false)} className="custom-btn">
-            Card to create a list
-          </div>
-        )}
-      </div>
+      <AddListOrCard
+        toAdd={toAddList}
+        title={boards.length ? "Add another list" : "Add a llist"}
+        handleAdd={() => setIsToAddList(false)}
+        handleClose={() => setIsToAddList(true)}
+      />
     </Home>
   );
 };
