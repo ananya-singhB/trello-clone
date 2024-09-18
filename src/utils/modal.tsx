@@ -1,4 +1,3 @@
-import React from "react";
 import { ModalPropTypes } from "./types";
 import "./styles.css";
 import { FaTimes } from "react-icons/fa";
