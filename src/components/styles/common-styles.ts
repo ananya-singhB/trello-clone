@@ -5,8 +5,9 @@ export const Home = styled.div`
   flex: 1;
   flex-direction: column;
   color: #3e2723;
-  justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  width: 98%;
+  padding: 10px;
 `;
 
 export const Label = styled.label`

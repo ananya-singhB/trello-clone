@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AddBoard, AppHeader } from "../styles/header";
 import "../styles";
-import { FaPlus } from "react-icons/fa";
+import { FaPlusCircle } from "react-icons/fa";
 import useBoardsContext from "../context/useBoardsContext";
 import { ActionTypes, Board } from "../../utils/types";
 import Modal from "../../utils/modal";
@@ -72,7 +72,7 @@ const Header: React.FC = () => {
           <h2>Trello Clone</h2>
           <div>
             <AddBoard type="button" onClick={handleAddABoard}>
-              <FaPlus />
+              <FaPlusCircle />
               &nbsp; Add a board
             </AddBoard>
           </div>
