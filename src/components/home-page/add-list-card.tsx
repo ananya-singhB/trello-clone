@@ -17,9 +17,12 @@ const AddListOrCard = ({
       {toAdd ? (
         <CustomAddButton title={title} handleClick={handleAdd} />
       ) : (
-        <button onClick={handleClose} className="custom-btn">
+        <div>
+          <input value={""} onChange={() => {}} placeholder="Enter list " />
+          <button onClick={handleClose} className="custom-btn">
           Card to create a list (Under Development)
         </button>
+        </div>
       )}
     </div>
   );
