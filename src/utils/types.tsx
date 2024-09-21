@@ -88,3 +88,5 @@ export type ModalActionPropsType = {
   primaryAction?: () => void;
   secondaryAction?: () => void;
 };
+
+export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never

@@ -6,3 +6,9 @@
     width: 100%;
     align-items: center;
 }
+
+.add-item{
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+}
