@@ -1,14 +1,65 @@
-.header-content{
-    display: flex;
-    flex-direction: row;
-    padding: 10px 30px;
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
+.header-content {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 30px;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
 }
 
-.add-item{
-    display: flex;
-    flex-direction: column;
-    padding: 0px;
+.add-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+}
+
+.add-list-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 4px;
+  background-image: linear-gradient(#dd9fea, rgb(226, 219, 226));
+  width: 200px;
+}
+
+.action-btns {
+  display: flex;
+  padding-top: 10px;
+
+  > .primary-add-btn {
+    background-color: rgb(153, 78, 223);
+    margin-right: 5px;
+    cursor: pointer;
+    border: 0;
+    color: white;
+    line-height: 2;
+    border-radius: 2px;
+  }
+
+  > .cancel-btn {
+    cursor: pointer;
+    border: 0;
+    color: rgb(153, 78, 223);
+    border-radius: 2px;
+
+    &:hover {
+      background-color: rgb(153, 78, 223);
+      color: white;
+    }
+  }
+}
+
+.textarea-card {
+  border-radius: 3px;
+}
+
+.input-list {
+  line-height: 2;
+  border-radius: 3px;
+  border: 0;
+
+  &:focus {
+    border: apx solid rgb(218, 28, 167);
+    outline: aquamarine
+  }
 }
