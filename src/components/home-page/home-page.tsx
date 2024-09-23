@@ -17,10 +17,10 @@ const HomePage: React.FC = () => {
         {currentActiveBoard &&
           boards
             ?.filter((board) => board.id === currentActiveBoard)
-            ?.map(({ cards }) => (
+            ?.map(({ lists }) => (
               <div>
-                {cards?.map((card) => (
-                  <span>{card.cardName}</span>
+                {lists?.map((list) => (
+                  <span>{list.listName}</span>
                 ))}
               </div>
             ))}

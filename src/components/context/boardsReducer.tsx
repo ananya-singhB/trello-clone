@@ -20,38 +20,38 @@ const boardsReducer = (
           item.id === action.payload.id ? action.payload : item
         ),
       };
-    case ActionTypes.ADD_NEW_CARD:
+    case ActionTypes.ADD_NEW_LIST:
       return {
         ...state,
         boards: state.boards.map((item) =>
           item.id === action.payload.boardId
-            ? { ...item, cards: [...item.cards, action.payload] }
+            ? { ...item, lists: [...item.lists, action.payload] }
             : item
         ),
       };
-    case ActionTypes.UPDATE_CARD: {
+    case ActionTypes.UPDATE_LIST: {
       return {
         ...state,
         boards: state.boards.map((item) => ({
           ...item,
-          cards: item.cards.map((card) =>
-            card.boardId !== action.payload.boardId &&
-            card.cardId !== action.payload.cardId
+          lists: item.lists.map((list) =>
+            list.boardId !== action.payload.boardId &&
+            list.listId !== action.payload.listId
               ? action.payload
-              : card
+              : list
           ),
         })),
       };
     }
-    case ActionTypes.REMOVE_CARD:
+    case ActionTypes.REMOVE_LIST:
       return {
         ...state,
         boards: state.boards.map((item) => ({
           ...item,
-          cards: item.cards.filter(
-            (card) =>
-              card.boardId !== action.payload.boardId &&
-              card.cardId !== action.payload.cardId
+          lists: item.lists.filter(
+            (list) =>
+              list.boardId !== action.payload.boardId &&
+              list.listId !== action.payload.listId
           ),
         })),
       };

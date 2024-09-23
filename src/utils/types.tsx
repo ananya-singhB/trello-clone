@@ -1,20 +1,27 @@
 import React from "react";
 
 export type Card = {
-  boardId: string;
+  listId: string;
   cardId: string;
   cardName: string;
+};
+
+export type List = {
+  boardId: string;
+  listId: string;
+  listName: string;
+  cards: Card[] | [];
 };
 
 export type Board = {
   id: string;
   boardName: string;
-  cards: Card[] | [];
+  lists: List[] | [];
 };
 
 export type BoardsState = {
   boards: Board[] | [];
-  currentActiveBoard?: string;
+  currentActiveBoard: string;
   isSidebarOpen?: boolean;
 };
 
@@ -22,6 +29,9 @@ export enum ActionTypes {
   ADD_NEW_BOARD = "ADD_NEW_BOARD",
   UPDATE_BOARD = "UPDATE_BOARD",
   REMOVE_BOARD = "REMOVE_BOARD",
+  ADD_NEW_LIST = "ADD_NEW_LIST",
+  UPDATE_LIST = "UPDATE_LIST",
+  REMOVE_LIST = "REMOVE_LIST",
   ADD_NEW_CARD = "ADD_NEW_CARD",
   UPDATE_CARD = "UPDATE_CARD",
   REMOVE_CARD = "REMOVE_CARD",
@@ -40,6 +50,15 @@ export type UpdateBoardAction = {
 export type RemoveBoardAction = {
   type: ActionTypes.REMOVE_BOARD;
   payload: string;
+};
+export type AddNewListAction = {
+  type: ActionTypes.ADD_NEW_LIST;
+  payload: List;
+};
+export type UpdateListAction = { type: ActionTypes.UPDATE_LIST; payload: List };
+export type RemoveListAction = {
+  type: ActionTypes.REMOVE_LIST;
+  payload: List;
 };
 export type AddNewCardAction = {
   type: ActionTypes.ADD_NEW_CARD;
@@ -63,6 +82,9 @@ export type BoardActionTypes =
   | AddNewBoardAction
   | RemoveBoardAction
   | UpdateBoardAction
+  | AddNewListAction
+  | RemoveListAction
+  | UpdateListAction
   | AddNewCardAction
   | RemoveCardAction
   | UpdateCardAction
@@ -89,4 +111,4 @@ export type ModalActionPropsType = {
   secondaryAction?: () => void;
 };
 
-export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never
+export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
