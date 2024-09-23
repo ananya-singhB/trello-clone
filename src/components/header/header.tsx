@@ -16,13 +16,13 @@ const Header: React.FC = () => {
   const initialBoardState = {
     id: "",
     boardName: "",
-    cards: [],
+    lists: [],
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentBoard, setCurrentBoard] = useState<Board>({
     id: "",
     boardName: "",
-    cards: [],
+    lists: [],
   });
 
   const handleAddABoard = () => {
