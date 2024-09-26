@@ -9,7 +9,7 @@ const HomePage: React.FC = () => {
   const {
     state: { currentActiveBoard, boards },
   } = useBoardsContext();
-  const [toAddList, setIsToAddList] = useState(false);
+  const [toAddList, setIsToAddList] = useState(true);
 
   return (
     <Home>
