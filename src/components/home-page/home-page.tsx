@@ -11,7 +11,7 @@ const HomePage: React.FC = () => {
   } = useBoardsContext();
   const [toAddList, setIsToAddList] = useState(true);
 
-  if(!currentActiveBoard){
+  if(!Number(currentActiveBoard){
     return 
       <div>
         <span>
