@@ -11,10 +11,19 @@ const HomePage: React.FC = () => {
   } = useBoardsContext();
   const [toAddList, setIsToAddList] = useState(true);
 
+  if(!currentActiveBoard){
+    return 
+      <div>
+        <span>
+          Please create a board!
+        </span>
+      </div>
+  }
+  
   return (
     <Home>
       <div>
-        {currentActiveBoard &&
+        {
           boards
             ?.filter((board) => board.id === currentActiveBoard)
             ?.map(({ lists }) => (
