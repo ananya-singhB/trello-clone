@@ -11,14 +11,17 @@ const HomePage: React.FC = () => {
   } = useBoardsContext();
   const [toAddList, setIsToAddList] = useState(true);
 
-  if(!Number(currentActiveBoard){
-    return 
-      <div>
+  console.log('currentActiveBoard', currentActiveBoard)
+
+  if(isNaN(Number(currentActiveBoard)) || !boards.length){
+    return (<div>
         <span>
           Please create a board!
         </span>
-      </div>
+      </div>)
   }
+
+  const isFirst = boards.find((board) => board.id === currentActiveBoard)?.lists.length
   
   return (
     <Home>
@@ -26,17 +29,17 @@ const HomePage: React.FC = () => {
         {
           boards
             ?.filter((board) => board.id === currentActiveBoard)
-            ?.map(({ lists }) => (
-              <div>
-                {lists?.map((list) => (
-                  <span>{list.listName}</span>
+            ?.map(({ lists}, index ) => (
+              <div key={`board-${index}`}>
+                {lists?.map((list, ind) => (
+                  <span key={`${list.listName}-${ind}`}>{list.listName}</span>
                 ))}
               </div>
             ))}
       </div>
       <AddListOrCard
         toAdd={toAddList}
-        title={boards.length ? "Add another list" : "Add a list"}
+        title={isFirst ? "Add another list" : "Add a list"}
         handleAdd={() => setIsToAddList(false)}
         handleClose={() => setIsToAddList(true)}
         type={LIST}

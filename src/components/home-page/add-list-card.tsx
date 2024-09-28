@@ -39,12 +39,12 @@ const AddListOrCard = ({
   };
 
   const handleAddItem = () => {
+    console.log('value', value)
     dispatch({ type: ActionTypes.ADD_NEW_LIST, payload: value });
-    handleClose()
+    handleCancel()
   };
 
   const currentLists = boards.filter((board) => board.id === currentActiveBoard).map((board) => board.lists)
-  console.log('value', value, boards)
 
   const handleNewItemCreate = () => {
     setValue((prev) => ({...prev, listId: `${currentLists.length}`}))
@@ -68,7 +68,7 @@ const AddListOrCard = ({
             }
           />
           <div className="action-btns">
-            <button onClick={handleAddItem} className="primary-add-btn" disabled>
+            <button onClick={handleAddItem} className="primary-add-btn" disabled={!value.listName}>
               Add {type === LIST ? "List" : "Card"}
             </button>
             <button onClick={handleCancel} className="cancel-btn">

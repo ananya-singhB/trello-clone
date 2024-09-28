@@ -8,16 +8,16 @@ const MainPage: React.FC = () => {
     state: { isSidebarOpen },
   } = useBoardsContext();
 
-  const appContentStyles = {
+  const appContentStyles: React.CSSProperties = {
     display: "flex",
-    "flex-direction": "column",
+    flexDirection: "column",
     flex: 1,
-    "align-items": "center",
+    alignItems: "center",
     width: isSidebarOpen ? "80%" : "97%",
   };
 
   return (
-    <div style={appContentStyles}>
+    <div style={{...appContentStyles}}>
       <Header />
       <AppRoutes />
     </div>
