@@ -60,6 +60,34 @@
 
   &:focus {
     border: apx solid rgb(218, 28, 167);
-    outline: aquamarine
+    outline: aquamarine;
+  }
+}
+
+.home {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  color: #3e2723;
+  align-items: flex-start;
+  width: 98%;
+  padding: 10px;
+  justify-content: flex-start;
+}
+
+.list {
+  display: block;
+  margin-right: 10px;
+  background-color: #986d9f;
+  color: white;
+  width: 250px;
+  min-height: 50px;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.list-title {
+  > span {
+    min-width: 200px;
   }
 }

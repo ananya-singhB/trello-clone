@@ -1,15 +1,5 @@
 import styled from "styled-components";
 
-export const Home = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  color: #3e2723;
-  align-items: flex-start;
-  width: 98%;
-  padding: 10px;
-`;
-
 export const Label = styled.label`
   display: flex;
   width: 85%;
