@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Home } from "../styles/common-styles";
 import useBoardsContext from "../context/useBoardsContext";
 import AddListOrCard from "./add-list-card";
 import { LIST } from "../constats";
@@ -11,37 +10,42 @@ const HomePage: React.FC = () => {
   } = useBoardsContext();
   const [toAddList, setIsToAddList] = useState(true);
 
-  if(!Number(currentActiveBoard){
-    return 
-      <div>
+  console.log('currentActiveBoard', currentActiveBoard)
+
+  if(isNaN(Number(currentActiveBoard)) || !boards.length){
+    return (<div>
         <span>
           Please create a board!
         </span>
-      </div>
+      </div>)
   }
+
+  const listHasItems = !!boards.find((board) => board.id === currentActiveBoard)?.lists.length
   
   return (
-    <Home>
-      <div>
+    <div className="home">
+      {listHasItems && <div className="list">
         {
           boards
             ?.filter((board) => board.id === currentActiveBoard)
-            ?.map(({ lists }) => (
-              <div>
-                {lists?.map((list) => (
-                  <span>{list.listName}</span>
+            ?.map(({ lists}, index ) => (
+              <div key={`board-${index}`}>
+                {lists?.map((list, ind) => (
+                  <div key={`${list.listName}-${ind}`} className="list-title">
+                    <span >{list.listName}</span>
+                  </div>
                 ))}
               </div>
             ))}
-      </div>
+      </div>}
       <AddListOrCard
         toAdd={toAddList}
-        title={boards.length ? "Add another list" : "Add a list"}
+        title={listHasItems ? "Add another list" : "Add a list"}
         handleAdd={() => setIsToAddList(false)}
         handleClose={() => setIsToAddList(true)}
         type={LIST}
       />
-    </Home>
+    </div>
   );
 };
 
