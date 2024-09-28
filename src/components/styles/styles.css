@@ -73,20 +73,27 @@
   width: 98%;
   padding: 10px;
   justify-content: flex-start;
+  overflow: scroll;
 }
 
 .list {
+}
+
+.list-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.list-content {
   display: block;
-  margin-right: 10px;
+  margin: 0px 10px 10px 0px;
   background-color: #986d9f;
   color: white;
   width: 250px;
   min-height: 50px;
   border-radius: 5px;
   padding: 0px 10px;
-}
 
-.list-content {
   & .list-title {
     display: flex;
     justify-content: space-between;
@@ -96,7 +103,7 @@
       min-width: 220px;
     }
 
-    .icon{
+    .icon {
       cursor: pointer;
     }
   }

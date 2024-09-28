@@ -11,8 +11,11 @@ const HomePage: React.FC = () => {
   } = useBoardsContext();
   const [toAddList, setIsToAddList] = useState(true);
   const [toAddCard, setIsToAddCard] = useState(false);
+  const [currentActiveList, setCurrentActiveList] = useState<
+    number | undefined
+  >(undefined);
 
-  console.log('currentActiveBoard', currentActiveBoard);
+  console.log('currentActiveBoard', currentActiveBoard, currentActiveList);
 
   if (isNaN(Number(currentActiveBoard)) || !boards.length) {
     return (
@@ -40,13 +43,21 @@ const HomePage: React.FC = () => {
                       <FaEllipsisV className='icon' />
                     </div>
                     <AddListOrCard
-                      toAdd={toAddCard}
+                      toAdd={
+                        currentActiveList
+                          ? ind !== currentActiveList && !toAddCard
+                          : true
+                      }
                       title='Add a Card'
                       handleAdd={() => {
                         setIsToAddList(true);
-                        setIsToAddCard(false)
+                        setIsToAddCard(false);
+                        setCurrentActiveList(ind);
                       }}
-                      handleClose={() => setIsToAddCard(true)}
+                      handleClose={() => {
+                        setIsToAddCard(true);
+                        setCurrentActiveList(undefined);
+                      }}
                       type={CARD}
                     />
                   </div>
@@ -59,7 +70,8 @@ const HomePage: React.FC = () => {
         toAdd={toAddList}
         title={listHasItems ? 'Add another list' : 'Add a list'}
         handleAdd={() => {
-          setIsToAddCard(true)
+          setCurrentActiveList(undefined);
+          setIsToAddCard(true);
           setIsToAddList(false);
         }}
         handleClose={() => setIsToAddList(true)}
