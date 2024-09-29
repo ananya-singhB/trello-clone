@@ -1,6 +1,7 @@
 import React from "react";
 
 export type Card = {
+  boardId: string;
   listId: string;
   cardId: string;
   cardName: string;
