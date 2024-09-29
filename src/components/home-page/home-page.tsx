@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
   return (
     <div className='home'>
       {listHasItems && (
-        <div className='list'>
+        <div>
           {boards
             ?.filter((board) => board.id === currentActiveBoard)
             ?.map(({ lists }, index) => (
@@ -39,6 +39,11 @@ const HomePage: React.FC = () => {
                     <div className='list-title'>
                       <h4>{list.listName}</h4>
                       <FaEllipsisV className='icon' />
+                    </div>
+                    <div>
+                      {list.cards.map((card) => (
+                        <div className='card-content'>{card.cardName}</div>
+                      ))}
                     </div>
                     <AddListOrCard
                       toAdd={
