@@ -96,7 +96,7 @@ const AddListOrCard = ({
             placeholder={
               type === LIST
                 ? 'Enter list name...'
-                : 'Enter a name for this card...'
+                : 'Enter card name...'
             }
           />
           <div className='action-btns'>
