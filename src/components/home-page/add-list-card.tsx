@@ -50,11 +50,8 @@ const AddListOrCard = ({
 
   const handleAddItem = () => {
     if (type === LIST) {
-      console.log('listData', listData);
       dispatch({ type: ActionTypes.ADD_NEW_LIST, payload: listData });
-    } else {
-      // dispatch card data
-      console.log('cardData', cardData);
+    } else if (cardData.cardId.length) {
       dispatch({ type: ActionTypes.ADD_NEW_CARD, payload: cardData });
     }
     handleCancel();
@@ -64,13 +61,12 @@ const AddListOrCard = ({
     .filter((board) => board.id === currentActiveBoard)
     .map((board) => board.lists);
 
-  console.log('currentLists', currentLists[0], id);
+  console.log('currentLists', currentLists[0]);
 
   const handleNewItemCreate = () => {
     if (type === LIST) {
       setListData((prev) => ({ ...prev, listId: `${currentLists[0].length}` }));
     } else if (id !== undefined) {
-      console.log('active card', currentLists[0][id].cards);
       const cardId = currentLists[0][id].cards.length;
       setCardData((prev) => ({
         ...prev,

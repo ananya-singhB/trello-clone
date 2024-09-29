@@ -15,8 +15,6 @@ const HomePage: React.FC = () => {
     number | undefined
   >(undefined);
 
-  console.log('currentActiveBoard', currentActiveBoard, currentActiveList);
-
   if (isNaN(Number(currentActiveBoard)) || !boards.length) {
     return (
       <div>
@@ -59,7 +57,7 @@ const HomePage: React.FC = () => {
                         setCurrentActiveList(undefined);
                       }}
                       type={CARD}
-                      id={currentActiveList}
+                      id={ind}
                     />
                   </div>
                 ))}
