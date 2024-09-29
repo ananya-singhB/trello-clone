@@ -44,7 +44,7 @@ const HomePage: React.FC = () => {
                     </div>
                     <AddListOrCard
                       toAdd={
-                        currentActiveList
+                        currentActiveList !== undefined
                           ? ind !== currentActiveList && !toAddCard
                           : true
                       }
@@ -59,6 +59,7 @@ const HomePage: React.FC = () => {
                         setCurrentActiveList(undefined);
                       }}
                       type={CARD}
+                      id={currentActiveList}
                     />
                   </div>
                 ))}

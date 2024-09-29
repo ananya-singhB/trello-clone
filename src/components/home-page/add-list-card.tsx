@@ -1,10 +1,10 @@
-import { FaTimes } from "react-icons/fa";
-import CustomAddButton from "../../utils/custom-add-button";
-import { ActionTypes, ArrayElement, List } from "../../utils/types";
-import { CARD, LIST } from "../constats";
-import Input from "./input";
-import { useState } from "react";
-import useBoardsContext from "../context/useBoardsContext";
+import { FaTimes } from 'react-icons/fa';
+import CustomAddButton from '../../utils/custom-add-button';
+import { ActionTypes, ArrayElement, Card, List } from '../../utils/types';
+import { CARD, LIST } from '../constats';
+import Input from './input';
+import { useState } from 'react';
+import useBoardsContext from '../context/useBoardsContext';
 
 const LayoutType = [LIST, CARD];
 
@@ -14,64 +14,104 @@ const AddListOrCard = ({
   handleAdd,
   handleClose,
   type,
+  id,
 }: {
   toAdd: boolean;
   title: string;
   handleAdd: () => void;
   handleClose: () => void;
   type: ArrayElement<typeof LayoutType>;
+  id?: number;
 }) => {
   const {
     state: { boards, currentActiveBoard },
     dispatch,
   } = useBoardsContext();
-  const initialListValue = {
-    listId: "",
-    listName: "",
+  const initialListData = {
+    listId: '',
+    listName: '',
     boardId: currentActiveBoard,
     cards: [],
   };
-  const [value, setValue] = useState<List>(initialListValue);
+  const initialCardData = {
+    boardId: currentActiveBoard,
+    listId: '',
+    cardId: '',
+    cardName: '',
+  };
+  const [listData, setListData] = useState<List>(initialListData);
+  const [cardData, setCardData] = useState<Card>(initialCardData);
 
   const handleCancel = () => {
     handleClose();
-    setValue(initialListValue);
+    setListData(initialListData);
+    setCardData(initialCardData);
   };
 
   const handleAddItem = () => {
-    console.log('value', value)
-    dispatch({ type: ActionTypes.ADD_NEW_LIST, payload: value });
-    handleCancel()
+    if (type === LIST) {
+      console.log('listData', listData);
+      dispatch({ type: ActionTypes.ADD_NEW_LIST, payload: listData });
+    } else {
+      // dispatch card data
+      console.log('cardData', cardData);
+      dispatch({ type: ActionTypes.ADD_NEW_CARD, payload: cardData });
+    }
+    handleCancel();
   };
 
-  const currentLists = boards.filter((board) => board.id === currentActiveBoard).map((board) => board.lists)
+  const currentLists = boards
+    .filter((board) => board.id === currentActiveBoard)
+    .map((board) => board.lists);
+
+  console.log('currentLists', currentLists[0], id);
 
   const handleNewItemCreate = () => {
-    setValue((prev) => ({...prev, listId: `${currentLists.length}`}))
-    handleAdd()
-  }
+    if (type === LIST) {
+      setListData((prev) => ({ ...prev, listId: `${currentLists[0].length}` }));
+    } else if (id !== undefined) {
+      console.log('active card', currentLists[0][id].cards);
+      const cardId = currentLists[0][id].cards.length;
+      setCardData((prev) => ({
+        ...prev,
+        cardId: `${cardId}`,
+        listId: `${id}`,
+      }));
+    }
+    handleAdd();
+  };
 
   return (
     <div>
       {toAdd ? (
         <CustomAddButton title={title} handleClick={handleNewItemCreate} />
       ) : (
-        <div className={type === LIST ? "add-list-item" : "add-card-item"}>
+        <div className={type === LIST ? 'add-list-item' : 'add-card-item'}>
           <Input
-            inputType={type === LIST ? "text" : "textarea"}
-            value={value.listName}
-            setValue={(val) => setValue((prev) => ({ ...prev, listName: val }))}
+            inputType={type === LIST ? 'text' : 'textarea'}
+            value={type === LIST ? listData.listName : cardData.cardName}
+            setValue={(val) => {
+              if (type === LIST) {
+                setListData((prev) => ({ ...prev, listName: val }));
+              } else {
+                setCardData((prev) => ({ ...prev, cardName: val }));
+              }
+            }}
             placeholder={
               type === LIST
-                ? "Enter list name..."
-                : "Enter a name for this card..."
+                ? 'Enter list name...'
+                : 'Enter a name for this card...'
             }
           />
-          <div className="action-btns">
-            <button onClick={handleAddItem} className="primary-add-btn" disabled={!value.listName}>
-              Add {type === LIST ? "List" : "Card"}
+          <div className='action-btns'>
+            <button
+              onClick={handleAddItem}
+              className='primary-add-btn'
+              disabled={type === CARD ? !cardData.cardName : !listData.listName}
+            >
+              Add {type === LIST ? 'List' : 'Card'}
             </button>
-            <button onClick={handleCancel} className="cancel-btn">
+            <button onClick={handleCancel} className='cancel-btn'>
               <FaTimes />
             </button>
           </div>

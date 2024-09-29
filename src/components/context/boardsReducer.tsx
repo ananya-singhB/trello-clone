@@ -1,4 +1,4 @@
-import { ActionTypes, BoardActionTypes, BoardsState } from "../../utils/types";
+import { ActionTypes, BoardActionTypes, BoardsState } from '../../utils/types';
 
 const boardsReducer = (
   state: BoardsState,
@@ -29,15 +29,55 @@ const boardsReducer = (
             : item
         ),
       };
+    case ActionTypes.ADD_NEW_CARD:
+      return {
+        ...state,
+        boards: state.boards.map((item) =>
+          item.id === action.payload.boardId
+            ? {
+                ...item,
+                lists: item.lists.map((list) =>
+                  action.payload.listId === list.listId
+                    ? {
+                        ...list,
+                        cards: [...list.cards, action.payload],
+                      }
+                    : list
+                ),
+              }
+            : item
+        ),
+      };
     case ActionTypes.UPDATE_LIST: {
       return {
         ...state,
         boards: state.boards.map((item) => ({
           ...item,
           lists: item.lists.map((list) =>
-            list.boardId !== action.payload.boardId &&
-            list.listId !== action.payload.listId
+            list.boardId === action.payload.boardId &&
+            list.listId === action.payload.listId
               ? action.payload
+              : list
+          ),
+        })),
+      };
+    }
+    case ActionTypes.UPDATE_CARD: {
+      return {
+        ...state,
+        boards: state.boards.map((item) => ({
+          ...item,
+          lists: item.lists.map((list) =>
+            list.boardId === action.payload.boardId &&
+            list.listId === action.payload.listId
+              ? {
+                  ...list,
+                  cards: list.cards.map((card) =>
+                    card.cardId === action.payload.cardId
+                      ? action.payload
+                      : card
+                  ),
+                }
               : list
           ),
         })),
@@ -53,6 +93,22 @@ const boardsReducer = (
               list.boardId !== action.payload.boardId &&
               list.listId !== action.payload.listId
           ),
+        })),
+      };
+    case ActionTypes.REMOVE_CARD:
+      return {
+        ...state,
+        boards: state.boards.map((item) => ({
+          ...item,
+          lists: item.lists.map((list) => ({
+            ...list,
+            cards: list.cards.filter(
+              (card) =>
+                card.boardId !== action.payload.boardId &&
+                card.listId !== action.payload.listId &&
+                card.cardId !== action.payload.cardId
+            ),
+          })),
         })),
       };
     case ActionTypes.SET_ACTIVE_BOARD:
