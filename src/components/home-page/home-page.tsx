@@ -3,6 +3,7 @@ import useBoardsContext from '../context/useBoardsContext';
 import AddListOrCard from './add-list-card';
 import { CARD, LIST } from '../constats';
 import { FaEllipsisV } from 'react-icons/fa';
+import Popover from '../../utils/popover';
 
 // Under Development
 const HomePage: React.FC = () => {
@@ -14,17 +15,22 @@ const HomePage: React.FC = () => {
   const [currentActiveList, setCurrentActiveList] = useState<
     number | undefined
   >(undefined);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   if (isNaN(Number(currentActiveBoard)) || !boards.length) {
     return (
-      <div>
-        <span>Please create a board!</span>
+      <div className='home'>
+        <span className='initial-home'>Please create a board!</span>
       </div>
     );
   }
 
   const listHasItems = !!boards.find((board) => board.id === currentActiveBoard)
     ?.lists.length;
+
+  const handleOpenAction = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
   return (
     <div className='home'>
@@ -38,7 +44,16 @@ const HomePage: React.FC = () => {
                   <div key={`${list.listName}-${ind}`} className='list-content'>
                     <div className='list-title'>
                       <h4>{list.listName}</h4>
-                      <FaEllipsisV className='icon' />
+                      <span className='actions-icon' onClick={handleOpenAction}>
+                        <FaEllipsisV />
+                      </span>
+
+                      <Popover
+                        title='List actions'
+                        children={''}
+                        anchorEl={anchorEl}
+                        onClose={() => setAnchorEl(null)}
+                      />
                     </div>
                     <div>
                       {list.cards.map((card) => (

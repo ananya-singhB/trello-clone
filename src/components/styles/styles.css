@@ -22,9 +22,10 @@
   width: 200px;
 }
 
-.add-card-item{
+.add-card-item {
   background-color: #ece1ee;
   padding: 10px;
+  border-radius: 4px;
 }
 
 .action-btns {
@@ -64,7 +65,7 @@
   max-width: 220px;
 
   &:focus {
-    border: 1px solid rgb(218, 28, 167);
+    border: 1px solid #ba68c8;
     outline: none;
   }
 }
@@ -75,7 +76,7 @@
   border: 0;
 
   &:focus {
-    border: 1px solid rgb(218, 28, 167);
+    border: 1px solid #ba68c8;
     outline: none;
   }
 }
@@ -84,12 +85,19 @@
   display: flex;
   flex: 1;
   flex-direction: row;
-  color: #3e2723;
+  color: #792d86;
   align-items: flex-start;
   width: 98%;
   padding: 10px;
   justify-content: flex-start;
   overflow: scroll;
+  background: linear-gradient(#faf8fb, white);
+
+  > .initial-home {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+  }
 }
 
 .list-container {
@@ -100,24 +108,21 @@
 .list-content {
   display: block;
   margin: 0px 10px 10px 0px;
-  background-color: #986d9f;
+  background: linear-gradient(#792d86, #c679d2);
   color: white;
   width: 250px;
   min-height: 50px;
   border-radius: 5px;
-  padding: 10px;
+  padding: 0px 10px 10px 10px;
 
   & .list-title {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
     align-items: center;
+
     > h4 {
       min-width: 220px;
-    }
-
-    .icon {
-      cursor: pointer;
     }
   }
 
@@ -130,4 +135,8 @@
     margin-bottom: 10px;
     border-radius: 5px;
   }
+}
+
+.actions-icon {
+  cursor: pointer;
 }
