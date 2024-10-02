@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
 const Popover = ({
@@ -6,11 +6,13 @@ const Popover = ({
   children,
   anchorEl,
   onClose,
+  data,
 }: {
   title: string;
-  children: ReactNode;
+  children: { title: string; handleClick: (_: any) => void }[];
   anchorEl: HTMLElement | null;
   onClose: () => void;
+  data: any;
 }) => {
   const popoverRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,27 +42,31 @@ const Popover = ({
     return null;
   }
 
-    // Calculate position based on the anchor element
-    const { left, top, height } = anchorEl.getBoundingClientRect();
-    const popoverStyle: React.CSSProperties = {
-        position: 'absolute',
-        top: top - height + window.scrollY, // Place below the icon
-        left: left + window.scrollX, // Align with the icon
-        zIndex: 1000,
-    };
-    console.log(left, top, height, popoverStyle)
+  // Calculate position based on the anchor element
+  const { left, top, height } = anchorEl.getBoundingClientRect();
+  const popoverStyle: React.CSSProperties = {
+    position: 'absolute',
+    top: top - height + window.scrollY, // Place below the icon
+    left: left + window.scrollX, // Align with the icon
+    zIndex: 1000,
+  };
 
   return (
     <div className='popover' style={popoverStyle} ref={popoverRef}>
-      <div  className='popover-header'>
+      <div className='popover-header'>
         <span className='popover-title'>{title}</span>
         <div className='icon'>
           <FaTimes onClick={onClose} />
         </div>
       </div>
 
-      <span className='action-list'>children A</span>
-      <span className='action-list'>children__ B</span>
+      <div className='popover-content'>
+        {children.map((child) => (
+          <span className='action-list' onClick={() => child.handleClick(data)}>
+            {child.title}
+          </span>
+        ))}
+      </div>
     </div>
   );
 };

@@ -4,11 +4,13 @@ import AddListOrCard from './add-list-card';
 import { CARD, LIST } from '../constats';
 import { FaEllipsisV } from 'react-icons/fa';
 import Popover from '../../utils/popover';
+import { ActionTypes, List } from '../../utils/types';
 
 // Under Development
 const HomePage: React.FC = () => {
   const {
     state: { currentActiveBoard, boards },
+    dispatch,
   } = useBoardsContext();
   const [toAddList, setIsToAddList] = useState(true);
   const [toAddCard, setIsToAddCard] = useState(false);
@@ -32,6 +34,18 @@ const HomePage: React.FC = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const popoverItems = [
+    {
+      title: 'Discard this list',
+      handleClick: (list: List) =>
+        dispatch({ type: ActionTypes.REMOVE_LIST, payload: list }),
+    },
+    {
+      title: 'Discard all cards in this list',
+      handleClick: (list: List) => {},
+    },
+  ];
+
   return (
     <div className='home'>
       {listHasItems && (
@@ -50,9 +64,10 @@ const HomePage: React.FC = () => {
 
                       <Popover
                         title='List actions'
-                        children={''}
+                        children={popoverItems}
                         anchorEl={anchorEl}
                         onClose={() => setAnchorEl(null)}
+                        data={list}
                       />
                     </div>
                     <div>
