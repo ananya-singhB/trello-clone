@@ -111,7 +111,7 @@
   color: #7b1fa2 !important;
   width: 250px;
   justify-content: center;
-  padding: 10px;
+  padding: 10px 0px;
   border: 0.1px solid #E1BEE7;
   border-radius: 5px;
   margin-top: 40px;
@@ -121,7 +121,7 @@
 .popover-header{
   display: flex;
   justify-content: space-between;
-  padding-bottom: 10px;
+  padding: 0px 10px;
 
   > .popover-title{
     margin-left: 30%;
@@ -137,7 +137,7 @@
 
 .action-list{
   display: block;
-  padding: 5px 0px;
+  padding: 10px 5px;
   cursor: pointer;
 
   &:hover{

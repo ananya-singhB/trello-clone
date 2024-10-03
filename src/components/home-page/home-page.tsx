@@ -61,7 +61,6 @@ const HomePage: React.FC = () => {
                       <span className='actions-icon' onClick={handleOpenAction}>
                         <FaEllipsisV />
                       </span>
-
                       <Popover
                         title='List actions'
                         children={popoverItems}
