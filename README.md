@@ -1,6 +1,6 @@
 **Trello Clone**
 
-Trello Clone is a visual project management a react web app(under development) inspired by Trello that helps users organize tasks and collaborate efficiently. Using boards, lists, and cards, users can monitor project progress, assign tasks, and organize their workflow effectively. It’s designed to assist individuals in managing their daily tasks effectively, featuring intuitive navigation for smooth task management. It streamlines workflow, enables users to identify and focus on key tasks, and enhances overall productivity.
+Trello Clone is a visual project management react web app(under development) inspired by Trello that helps users organize tasks and collaborate efficiently. Using boards, lists, and cards, users can monitor project progress, assign tasks, and organize their workflow effectively. It’s designed to assist individuals in managing their daily tasks effectively, featuring intuitive navigation for smooth task management. It streamlines workflow, enables users to identify and focus on key tasks, and enhances overall productivity.
 
 **Technologies Used**
 
