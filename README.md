@@ -8,7 +8,7 @@ React, TypeScript, JavaScript, HTML and CSS
 
 **Installation Instructions**
 
-To install the project, clone the repository and run npm install in the project directory.
+To install the project, clone the repository and run 'npm install' in the project directory.
 
 **Usage**
 Run the app in the development mode with 'npm start'.\
