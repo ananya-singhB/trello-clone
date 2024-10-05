@@ -54,9 +54,10 @@ const HomePage: React.FC = () => {
 
   const onDragEnd = (result: any) => {
     const { source, destination } = result;
-    console.log('result', result);
 
+    // If dropped outside the list
     if (!destination) return;
+    console.log('result', result);
 
     // Handle the logic for reordering items
     const updatedData = [...boardData]; // Clone the data to avoid mutating state directly
@@ -76,57 +77,59 @@ const HomePage: React.FC = () => {
               ?.map(({ lists }, index) => (
                 <div key={`board-${index}`} className='list-container'>
                   {lists?.map((list, ind) => (
-                    // <Droppable
-                    //   key={`droppable-${list.listName}-${ind}`}
-                    //   droppableId={ind}
-                    //   type='LIST'
-                    // >
-                    <div
-                      key={`${list.listName}-${ind}`}
-                      className='list-content'
+                    <Droppable
+                      key={`droppable-${list.listName}-${ind}`}
+                      droppableId={`list-droppable-${ind}`}
+                      type='LIST'
                     >
-                      <div className='list-title'>
-                        <h4>{list.listName}</h4>
-                        <span
-                          className='actions-icon'
-                          onClick={handleOpenAction}
-                        >
-                          <FaEllipsisV />
-                        </span>
-                        <Popover
-                          title='List actions'
-                          children={popoverItems}
-                          anchorEl={anchorEl}
-                          onClose={() => setAnchorEl(null)}
-                          data={list}
+                      {(provided) => (<div
+                        key={`${list.listName}-${ind}`}
+                        className='list-content'
+                      >
+                        <div className='list-title'>
+                          <h4>{list.listName}</h4>
+                          <span
+                            className='actions-icon'
+                            onClick={handleOpenAction}
+                          >
+                            <FaEllipsisV />
+                          </span>
+                          <Popover
+                            title='List actions'
+                            children={popoverItems}
+                            anchorEl={anchorEl}
+                            onClose={() => setAnchorEl(null)}
+                            data={list}
+                          />
+                        </div>
+
+                        <div>
+                          {list.cards.map((card) => (
+                            <div className='card-content'>{card.cardName}</div>
+                          ))}
+                        </div>
+
+                        <AddListOrCard
+                          toAdd={
+                            currentActiveList !== undefined
+                              ? ind !== currentActiveList && !toAddCard
+                              : true
+                          }
+                          title='Add a Card'
+                          handleAdd={() => {
+                            setIsToAddList(true);
+                            setIsToAddCard(false);
+                            setCurrentActiveList(ind);
+                          }}
+                          handleClose={() => {
+                            setIsToAddCard(true);
+                            setCurrentActiveList(undefined);
+                          }}
+                          type={CARD}
+                          id={ind}
                         />
-                      </div>
-                      <div>
-                        {list.cards.map((card) => (
-                          <div className='card-content'>{card.cardName}</div>
-                        ))}
-                      </div>
-                      <AddListOrCard
-                        toAdd={
-                          currentActiveList !== undefined
-                            ? ind !== currentActiveList && !toAddCard
-                            : true
-                        }
-                        title='Add a Card'
-                        handleAdd={() => {
-                          setIsToAddList(true);
-                          setIsToAddCard(false);
-                          setCurrentActiveList(ind);
-                        }}
-                        handleClose={() => {
-                          setIsToAddCard(true);
-                          setCurrentActiveList(undefined);
-                        }}
-                        type={CARD}
-                        id={ind}
-                      />
-                    </div>
-                    // </Droppable>
+                      </div>)}
+                    </Droppable>
                   ))}
                 </div>
               ))}
