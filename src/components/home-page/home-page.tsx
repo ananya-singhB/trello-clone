@@ -71,69 +71,89 @@ const HomePage: React.FC = () => {
     <div className='home'>
       {listHasItems && (
         <DragDropContext onDragEnd={onDragEnd}>
-          <div>
-            {boards
-              ?.filter((board) => board.id === currentActiveBoard)
-              ?.map(({ lists }, index) => (
-                <div key={`board-${index}`} className='list-container'>
-                  {lists?.map((list, ind) => (
-                    <Droppable
-                      key={`droppable-${list.listName}-${ind}`}
-                      droppableId={`list-droppable-${ind}`}
-                      type='LIST'
-                    >
-                      {(provided) => (<div
-                        key={`${list.listName}-${ind}`}
-                        className='list-content'
-                      >
-                        <div className='list-title' {...provided.droppableProps} ref={provided.innerRef}>
-                          <h4>{list.listName}</h4>
-                          <span
-                            className='actions-icon'
-                            onClick={handleOpenAction}
-                          >
-                            <FaEllipsisV />
-                          </span>
-                          <Popover
-                            title='List actions'
-                            children={popoverItems}
-                            anchorEl={anchorEl}
-                            onClose={() => setAnchorEl(null)}
-                            data={list}
-                          />
-                        </div>
+          <Droppable droppableId='lists' type='LIST' direction='horizontal'>
+            {(provided) => (
+              <div>
+                {boards
+                  ?.filter((board) => board.id === currentActiveBoard)
+                  ?.map(({ lists }, index) => (
+                    <div key={`board-${index}`} className='list-container'>
+                      {lists?.map((list, ind) => (
+                        <Droppable
+                          key={`droppable-${list.listName}-${ind}`}
+                          droppableId={`list-droppable-${ind}`}
+                          type='LIST'
+                        >
+                          {(provided) => (
+                            <div
+                              key={`${list.listName}-${ind}`}
+                              className='list-content'
+                              {...provided.droppableProps}
+                              ref={provided.innerRef}
+                            >
+                              <div className='list-title'>
+                                <h4>{list.listName}</h4>
+                                <span
+                                  className='actions-icon'
+                                  onClick={handleOpenAction}
+                                >
+                                  <FaEllipsisV />
+                                </span>
+                                <Popover
+                                  title='List actions'
+                                  children={popoverItems}
+                                  anchorEl={anchorEl}
+                                  onClose={() => setAnchorEl(null)}
+                                  data={list}
+                                />
+                              </div>
 
-                        <div>
-                          {list.cards.map((card) => (
-                            <div className='card-content'>{card.cardName}</div>
-                          ))}
-                        </div>
+                              <div>
+                                {list.cards.map((card, cardIndex) => (
+                                  <Draggable
+                                    key={card.cardId}
+                                    draggableId={card.cardId}
+                                    index={cardIndex}
+                                  >
+                                    {(provided) => (
+                                      <div className='card-content'>
+                                        {card.cardName}
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                ))}
+                                {provided.placeholder}
+                              </div>
 
-                        <AddListOrCard
-                          toAdd={
-                            currentActiveList !== undefined
-                              ? ind !== currentActiveList && !toAddCard
-                              : true
-                          }
-                          title='Add a Card'
-                          handleAdd={() => {
-                            setIsToAddList(true);
-                            setIsToAddCard(false);
-                            setCurrentActiveList(ind);
-                          }}
-                          handleClose={() => {
-                            setIsToAddCard(true);
-                            setCurrentActiveList(undefined);
-                          }}
-                          type={CARD}
-                          id={ind}
-                        />
-                      </div>)}
-                    </Droppable>
+                              <AddListOrCard
+                                toAdd={
+                                  currentActiveList !== undefined
+                                    ? ind !== currentActiveList && !toAddCard
+                                    : true
+                                }
+                                title='Add a Card'
+                                handleAdd={() => {
+                                  setIsToAddList(true);
+                                  setIsToAddCard(false);
+                                  setCurrentActiveList(ind);
+                                }}
+                                handleClose={() => {
+                                  setIsToAddCard(true);
+                                  setCurrentActiveList(undefined);
+                                }}
+                                type={CARD}
+                                id={ind}
+                              />
+                            </div>
+                          )}
+                        </Droppable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
                   ))}
-                </div>
-              ))}
-          </div>
+              </div>
+            )}
+          </Droppable>
         </DragDropContext>
       )}
       <AddListOrCard
