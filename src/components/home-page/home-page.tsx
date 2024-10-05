@@ -86,7 +86,7 @@ const HomePage: React.FC = () => {
                         key={`${list.listName}-${ind}`}
                         className='list-content'
                       >
-                        <div className='list-title'>
+                        <div className='list-title' {...provided.droppableProps} ref={provided.innerRef}>
                           <h4>{list.listName}</h4>
                           <span
                             className='actions-icon'
