@@ -65,13 +65,16 @@ const AddListOrCard = ({
 
   const handleNewItemCreate = () => {
     if (type === LIST) {
-      setListData((prev) => ({ ...prev, listId: `${currentLists[0].length}` }));
+      setListData((prev) => ({
+        ...prev,
+        listId: `list-${currentLists[0].length}`,
+      }));
     } else if (id !== undefined) {
       const cardId = currentLists[0][id].cards.length;
       setCardData((prev) => ({
         ...prev,
-        cardId: `${cardId}`,
-        listId: `${id}`,
+        cardId: `card-${cardId}`,
+        listId: `list-${id}`,
       }));
     }
     handleAdd();
@@ -94,9 +97,7 @@ const AddListOrCard = ({
               }
             }}
             placeholder={
-              type === LIST
-                ? 'Enter list name...'
-                : 'Enter card name...'
+              type === LIST ? 'Enter list name...' : 'Enter card name...'
             }
           />
           <div className='action-btns'>

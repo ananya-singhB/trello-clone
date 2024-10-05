@@ -4,10 +4,10 @@ import {
   Button,
   SidebarContainer,
   SidebarTitle,
-} from "../styles/sidebar";
-import useBoardsContext from "../context/useBoardsContext";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import { ActionTypes } from "../../utils/types";
+} from '../styles/sidebar';
+import useBoardsContext from '../context/useBoardsContext';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { ActionTypes } from '../../utils/types';
 
 const Sidebar = () => {
   const {
@@ -16,13 +16,14 @@ const Sidebar = () => {
   } = useBoardsContext();
 
   const props = { ...{ isOpen: isSidebarOpen } };
+  console.log('boards', boards, 'currentActiveBoard', currentActiveBoard);
 
   return (
     <SidebarContainer {...props}>
       <AppSidebar>
         <SidebarTitle {...props}>
           <span>
-            {isSidebarOpen ? `Your Active Boards: ${boards.length}` : ""}
+            {isSidebarOpen ? `Your Active Boards: ${boards.length}` : ''}
           </span>
           <Button
             onClick={() =>
@@ -31,7 +32,7 @@ const Sidebar = () => {
                 payload: !isSidebarOpen,
               })
             }
-            title={isSidebarOpen ? "Collapse Sidebar" : "Expand Sidebar"}
+            title={isSidebarOpen ? 'Collapse Sidebar' : 'Expand Sidebar'}
           >
             {isSidebarOpen ? <FaAngleLeft /> : <FaAngleRight />}
           </Button>
@@ -42,7 +43,7 @@ const Sidebar = () => {
               <li
                 style={{
                   backdropFilter:
-                    board.id === currentActiveBoard ? "sepia(35%)" : "none",
+                    board.id === currentActiveBoard ? 'sepia(35%)' : 'none',
                 }}
                 onClick={() =>
                   dispatch({

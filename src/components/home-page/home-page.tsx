@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import useBoardsContext from '../context/useBoardsContext';
 import AddListOrCard from './add-list-card';
 import { CARD, LIST } from '../constats';
@@ -18,8 +19,13 @@ const HomePage: React.FC = () => {
     number | undefined
   >(undefined);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [boardData, setBoardData] = useState<List[] | []>(
+    currentActiveBoard
+      ? boards[Number(currentActiveBoard?.split('-').pop())].lists
+      : []
+  );
 
-  if (isNaN(Number(currentActiveBoard)) || !boards.length) {
+  if (isNaN(Number(currentActiveBoard?.split('-').pop())) || !boards.length) {
     return (
       <div className='home'>
         <span className='initial-home'>Please create a board!</span>
@@ -46,58 +52,89 @@ const HomePage: React.FC = () => {
     },
   ];
 
+  const onDragEnd = (result: any) => {
+    const { source, destination } = result;
+
+    // If dropped outside the list
+    if (!destination) return;
+    console.log('result', result);
+
+    // Handle the logic for reordering items
+    const updatedData = [...boardData]; // Clone the data to avoid mutating state directly
+
+    // ... logic to reorder items and/or sublists
+
+    setBoardData(updatedData);
+  };
+
   return (
     <div className='home'>
       {listHasItems && (
-        <div>
-          {boards
-            ?.filter((board) => board.id === currentActiveBoard)
-            ?.map(({ lists }, index) => (
-              <div key={`board-${index}`} className='list-container'>
-                {lists?.map((list, ind) => (
-                  <div key={`${list.listName}-${ind}`} className='list-content'>
-                    <div className='list-title'>
-                      <h4>{list.listName}</h4>
-                      <span className='actions-icon' onClick={handleOpenAction}>
-                        <FaEllipsisV />
-                      </span>
-                      <Popover
-                        title='List actions'
-                        children={popoverItems}
-                        anchorEl={anchorEl}
-                        onClose={() => setAnchorEl(null)}
-                        data={list}
-                      />
-                    </div>
-                    <div>
-                      {list.cards.map((card) => (
-                        <div className='card-content'>{card.cardName}</div>
-                      ))}
-                    </div>
-                    <AddListOrCard
-                      toAdd={
-                        currentActiveList !== undefined
-                          ? ind !== currentActiveList && !toAddCard
-                          : true
-                      }
-                      title='Add a Card'
-                      handleAdd={() => {
-                        setIsToAddList(true);
-                        setIsToAddCard(false);
-                        setCurrentActiveList(ind);
-                      }}
-                      handleClose={() => {
-                        setIsToAddCard(true);
-                        setCurrentActiveList(undefined);
-                      }}
-                      type={CARD}
-                      id={ind}
-                    />
-                  </div>
-                ))}
-              </div>
-            ))}
-        </div>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div>
+            {boards
+              ?.filter((board) => board.id === currentActiveBoard)
+              ?.map(({ lists }, index) => (
+                <div key={`board-${index}`} className='list-container'>
+                  {lists?.map((list, ind) => (
+                    <Droppable
+                      key={`droppable-${list.listName}-${ind}`}
+                      droppableId={`list-droppable-${ind}`}
+                      type='LIST'
+                    >
+                      {(provided) => (<div
+                        key={`${list.listName}-${ind}`}
+                        className='list-content'
+                      >
+                        <div className='list-title' {...provided.droppableProps} ref={provided.innerRef}>
+                          <h4>{list.listName}</h4>
+                          <span
+                            className='actions-icon'
+                            onClick={handleOpenAction}
+                          >
+                            <FaEllipsisV />
+                          </span>
+                          <Popover
+                            title='List actions'
+                            children={popoverItems}
+                            anchorEl={anchorEl}
+                            onClose={() => setAnchorEl(null)}
+                            data={list}
+                          />
+                        </div>
+
+                        <div>
+                          {list.cards.map((card) => (
+                            <div className='card-content'>{card.cardName}</div>
+                          ))}
+                        </div>
+
+                        <AddListOrCard
+                          toAdd={
+                            currentActiveList !== undefined
+                              ? ind !== currentActiveList && !toAddCard
+                              : true
+                          }
+                          title='Add a Card'
+                          handleAdd={() => {
+                            setIsToAddList(true);
+                            setIsToAddCard(false);
+                            setCurrentActiveList(ind);
+                          }}
+                          handleClose={() => {
+                            setIsToAddCard(true);
+                            setCurrentActiveList(undefined);
+                          }}
+                          type={CARD}
+                          id={ind}
+                        />
+                      </div>)}
+                    </Droppable>
+                  ))}
+                </div>
+              ))}
+          </div>
+        </DragDropContext>
       )}
       <AddListOrCard
         toAdd={toAddList}

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { AddBoard, AppHeader } from "../styles/header";
-import "../styles";
-import { FaPlusCircle } from "react-icons/fa";
-import useBoardsContext from "../context/useBoardsContext";
-import { ActionTypes, Board } from "../../utils/types";
-import Modal from "../../utils/modal";
-import ModalActions from "../../utils/modal-actions";
-import { Input, Label } from "../styles/common-styles";
+import React, { useState } from 'react';
+import { AddBoard, AppHeader } from '../styles/header';
+import '../styles';
+import { FaPlusCircle } from 'react-icons/fa';
+import useBoardsContext from '../context/useBoardsContext';
+import { ActionTypes, Board } from '../../utils/types';
+import Modal from '../../utils/modal';
+import ModalActions from '../../utils/modal-actions';
+import { Input, Label } from '../styles/common-styles';
 
 const Header: React.FC = () => {
   const {
@@ -14,19 +14,19 @@ const Header: React.FC = () => {
     dispatch,
   } = useBoardsContext();
   const initialBoardState = {
-    id: "",
-    boardName: "",
+    id: '',
+    boardName: '',
     lists: [],
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentBoard, setCurrentBoard] = useState<Board>({
-    id: "",
-    boardName: "",
+    id: '',
+    boardName: '',
     lists: [],
   });
 
   const handleAddABoard = () => {
-    setCurrentBoard((prev) => ({ ...prev, id: `${boards.length}` }));
+    setCurrentBoard((prev) => ({ ...prev, id: `board-${boards.length}` }));
     setIsModalOpen(true);
   };
 
@@ -42,7 +42,7 @@ const Header: React.FC = () => {
     });
     dispatch({
       type: ActionTypes.SET_ACTIVE_BOARD,
-      payload: `${boards.length}`,
+      payload: `board-${boards.length}`,
     });
     handleModalClose();
   };
@@ -53,7 +53,7 @@ const Header: React.FC = () => {
         <Label>
           <span>Board title</span>
           &nbsp;
-          <span className="required">*</span>
+          <span className='required'>*</span>
         </Label>
         <Input
           value={currentBoard.boardName}
@@ -68,10 +68,10 @@ const Header: React.FC = () => {
   return (
     <>
       <AppHeader>
-        <div className="header-content">
+        <div className='header-content'>
           <h2>Trello Clone</h2>
           <div>
-            <AddBoard type="button" onClick={handleAddABoard}>
+            <AddBoard type='button' onClick={handleAddABoard}>
               <FaPlusCircle />
               &nbsp; Add a board
             </AddBoard>
@@ -81,12 +81,12 @@ const Header: React.FC = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={handleModalClose}
-        title="Create a board"
+        title='Create a board'
         actions={
           <ModalActions
-            primaryButton="Create"
+            primaryButton='Create'
             primaryAction={handleConfirm}
-            secondaryButton="Cancel"
+            secondaryButton='Cancel'
             secondaryAction={handleModalClose}
           />
         }
