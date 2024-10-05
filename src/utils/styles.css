@@ -9,10 +9,11 @@
   background-image: linear-gradient(to bottom, #dca2e6, #e0dbe1);
   color: #7b1fa2;
   margin-top: 20vh;
-  border: 1px solid #e3b8ec;
+  border: 0.1px solid #e3b8ec;
   border-radius: 25px;
   z-index: 1000;
   position: fixed;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
@@ -103,7 +104,7 @@
   }
 }
 
-.popover{
+.popover {
   display: flex;
   flex-direction: column;
   z-index: 5;
@@ -112,35 +113,35 @@
   width: 250px;
   justify-content: center;
   padding: 10px 0px;
-  border: 0.1px solid #E1BEE7;
+  border: 0.1px solid #e1bee7;
   border-radius: 5px;
   margin-top: 40px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.popover-header{
+.popover-header {
   display: flex;
   justify-content: space-between;
   padding: 0px 10px;
 
-  > .popover-title{
+  > .popover-title {
     margin-left: 30%;
     padding-bottom: 10px;
     font-weight: bold;
   }
 
-  > .icon{
+  > .icon {
     justify-content: flex-end;
     cursor: pointer;
   }
 }
 
-.action-list{
+.action-list {
   display: block;
   padding: 10px 5px;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     background-color: white;
   }
 }
