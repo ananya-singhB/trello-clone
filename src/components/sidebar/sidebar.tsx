@@ -15,7 +15,7 @@ const Sidebar = () => {
     dispatch,
   } = useBoardsContext();
 
-  const props = { ...{ isOpen: isSidebarOpen } };
+  const props = { isOpen: isSidebarOpen };
   console.log('boards', boards, 'currentActiveBoard', currentActiveBoard);
 
   return (
@@ -41,6 +41,7 @@ const Sidebar = () => {
           <BoardsList>
             {boards?.map((board) => (
               <li
+                key={board.id}
                 style={{
                   backdropFilter:
                     board.id === currentActiveBoard ? 'sepia(35%)' : 'none',

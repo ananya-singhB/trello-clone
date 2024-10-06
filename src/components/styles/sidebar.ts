@@ -7,7 +7,7 @@ export const SidebarContainer = styled.div`
   background: linear-gradient(to bottom, #f9edfb, white);
   border-right: 1px solid #f9edfb;
   color: #7b1fa2;
-  max-width: ${(props: any) => (props.isOpen ? "20%" : "3%")};
+  max-width: ${(props: any) => (props?.isOpen ? "20%" : "3%")};
 `;
 
 export const AppSidebar = styled.div`
@@ -24,7 +24,7 @@ export const SidebarTitle = styled.div`
   align-items: center;
   height: 7vh;
   border-bottom: ${(props: any) =>
-    props.isOpen ? "1px solid #F7DEFC" : "none"};
+    props?.isOpen ? "1px solid #F7DEFC" : "none"};
 
   > span {
     padding-left: 15px;
