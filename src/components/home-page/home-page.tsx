@@ -55,105 +55,156 @@ const HomePage: React.FC = () => {
   const onDragEnd = (result: any) => {
     const { source, destination } = result;
 
+    console.log('result________', result);
+
     // If dropped outside the list
     if (!destination) return;
     console.log('result', result);
 
+    // Check if the item was dropped in the same place
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      return;
+    }
+
+    const sourceListIndex = boardData.findIndex(
+      (list) => list.listId === source.droppableId
+    );
+    const destinationListIndex = boardData.findIndex(
+      (list) => list.listId === destination.droppableId
+    );
+
+    const sourceList = boardData[sourceListIndex];
+    const destinationList = boardData[destinationListIndex];
+
     // Handle the logic for reordering items
-    const updatedData = [...boardData]; // Clone the data to avoid mutating state directly
+    // Moving cards between lists
+    if (source.droppableId !== destination.droppableId) {
+      const sourceCards = sourceList?.cards
+      console.log('sourceCards', sourceCards)
+      const [removed] = sourceCards?.splice(source.index, 1); // Remove card from source
+      const destinationCards = destinationList?.cards
+      console.log('destinationCards', destinationCards)
+      destinationCards.splice(destination.index, 0, removed); // Add card to destination
 
-    // ... logic to reorder items and/or sublists
+      // Update lists state
+      const updatedLists = boardData.map((list, index) => {
+        if (index === sourceListIndex) {
+          return { ...list, cards: sourceCards }; // Update source list
+        }
+        if (index === destinationListIndex) {
+          return { ...list, cards: destinationCards }; // Update destination list
+        }
+        return list;
+      });
 
-    setBoardData(updatedData);
+      setBoardData(updatedLists); // Set the updated lists
+    } else {
+      // Reordering cards within the same list
+      const cards = Array.from(sourceList.cards);
+      const [removed] = cards.splice(source.index, 1); // Remove card from source
+      cards.splice(destination.index, 0, removed); // Add card to new position
+
+      // Update lists state
+      const updatedLists = boardData.map((list, index) => {
+        if (index === sourceListIndex) {
+          return { ...list, cards }; // Update source list with reordered cards
+        }
+        return list;
+      });
+
+      setBoardData(updatedLists); // Set the updated lists
+    }
   };
+
+  console.log('board Data', boardData);
 
   return (
     <div className='home'>
       {listHasItems && (
         <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId='lists' type='LIST' direction='horizontal'>
-            {(provided) => (
-              <div>
-                {boards
-                  ?.filter((board) => board.id === currentActiveBoard)
-                  ?.map(({ lists }, index) => (
-                    <div key={`board-${index}`} className='list-container'>
-                      {lists?.map((list, ind) => (
-                        <Droppable
-                          key={`droppable-${list.listName}-${ind}`}
-                          droppableId={`list-droppable-${ind}`}
-                          type='LIST'
-                        >
-                          {(provided) => (
-                            <div
-                              key={`${list.listName}-${ind}`}
-                              className='list-content'
-                              {...provided.droppableProps}
-                              ref={provided.innerRef}
+          {boards
+            ?.filter((board) => board.id === currentActiveBoard)
+            ?.map(({ lists }, index) => (
+              <div key={`board-${index}`} className='list-container'>
+                {lists.map((list, ind) => (
+                  <Droppable
+                    key={`droppable-${list.listId || ind}`} // Ensure this is unique
+                    droppableId={`drop-${list.listId || ind}`} // Use listId if available
+                    type='LIST'
+                  >
+                    {(provided) => (
+                      <div
+                        className='list-content'
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                      >
+                        <div className='list-title'>
+                          <h4>{list.listName}</h4>
+                          <span
+                            className='actions-icon'
+                            onClick={handleOpenAction}
+                          >
+                            <FaEllipsisV />
+                          </span>
+                          <Popover
+                            title='List actions'
+                            children={popoverItems}
+                            anchorEl={anchorEl}
+                            onClose={() => setAnchorEl(null)}
+                            data={list}
+                          />
+                        </div>
+
+                        <div>
+                          {list.cards.map((card, cardIndex) => (
+                            <Draggable
+                              key={`draggable-${list.listId}-${card.cardId}`}
+                              draggableId={`drag-${list.listId}-${card.cardId}`}
+                              index={cardIndex}
                             >
-                              <div className='list-title'>
-                                <h4>{list.listName}</h4>
-                                <span
-                                  className='actions-icon'
-                                  onClick={handleOpenAction}
+                              {(provided) => (
+                                <div
+                                  className='card-content'
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  ref={provided.innerRef} // Make sure to use the ref
                                 >
-                                  <FaEllipsisV />
-                                </span>
-                                <Popover
-                                  title='List actions'
-                                  children={popoverItems}
-                                  anchorEl={anchorEl}
-                                  onClose={() => setAnchorEl(null)}
-                                  data={list}
-                                />
-                              </div>
+                                  {card.cardName}
+                                </div>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
 
-                              <div>
-                                {list.cards.map((card, cardIndex) => (
-                                  <Draggable
-                                    key={card.cardId}
-                                    draggableId={card.cardId}
-                                    index={cardIndex}
-                                  >
-                                    {(provided) => (
-                                      <div className='card-content'>
-                                        {card.cardName}
-                                      </div>
-                                    )}
-                                  </Draggable>
-                                ))}
-                                {provided.placeholder}
-                              </div>
-
-                              <AddListOrCard
-                                toAdd={
-                                  currentActiveList !== undefined
-                                    ? ind !== currentActiveList && !toAddCard
-                                    : true
-                                }
-                                title='Add a Card'
-                                handleAdd={() => {
-                                  setIsToAddList(true);
-                                  setIsToAddCard(false);
-                                  setCurrentActiveList(ind);
-                                }}
-                                handleClose={() => {
-                                  setIsToAddCard(true);
-                                  setCurrentActiveList(undefined);
-                                }}
-                                type={CARD}
-                                id={ind}
-                              />
-                            </div>
-                          )}
-                        </Droppable>
-                      ))}
-                      {provided.placeholder}
-                    </div>
-                  ))}
+                        <AddListOrCard
+                          toAdd={
+                            currentActiveList !== undefined
+                              ? ind !== currentActiveList && !toAddCard
+                              : true
+                          }
+                          title='Add a Card'
+                          handleAdd={() => {
+                            setIsToAddList(true);
+                            setIsToAddCard(false);
+                            setCurrentActiveList(ind);
+                          }}
+                          handleClose={() => {
+                            setIsToAddCard(true);
+                            setCurrentActiveList(undefined);
+                          }}
+                          type={CARD}
+                          id={ind}
+                        />
+                      </div>
+                    )}
+                  </Droppable>
+                ))}
               </div>
-            )}
-          </Droppable>
+            ))}
         </DragDropContext>
       )}
       <AddListOrCard
