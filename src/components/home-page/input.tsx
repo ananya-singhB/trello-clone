@@ -2,27 +2,30 @@ const Input = ({
   inputType,
   value,
   setValue,
-  placeholder
+  placeholder,
+  handleSave,
 }: {
   inputType: string;
   value: string;
   setValue: (_: string) => void;
   placeholder: string;
+  handleSave?: () => void;
 }) => {
-  if (inputType === "textarea") {
+  if (inputType === 'textarea') {
     return (
       <textarea
-        className="textarea-card"
+        className='textarea-card'
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
+        onBlur={handleSave}
       />
     );
   }
 
   return (
     <input
-      className="input-list"
+      className='input-list'
       value={value}
       onChange={(e) => setValue(e.target.value)}
       placeholder={placeholder}

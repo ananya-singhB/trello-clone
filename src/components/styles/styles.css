@@ -135,6 +135,11 @@
     color: #986d9f;
     margin-bottom: 10px;
     border-radius: 5px;
+
+    & .pen {
+      cursor: pointer;
+      font-size: 13px;
+    }
   }
 }
 
