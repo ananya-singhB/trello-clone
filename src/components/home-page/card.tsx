@@ -21,6 +21,7 @@ const CardData = ({ card }: { card: Card }) => {
     );
   };
 
+  // handle card update
   return (
     <>
       {editingCard?.cardId === card.cardId ? (
