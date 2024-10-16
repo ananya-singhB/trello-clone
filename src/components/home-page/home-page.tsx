@@ -6,6 +6,7 @@ import { CARD, LIST } from '../constats';
 import { FaEllipsisV } from 'react-icons/fa';
 import Popover from '../../utils/popover';
 import { ActionTypes, List } from '../../utils/types';
+import CardData from './card';
 
 // Under Development
 const HomePage: React.FC = () => {
@@ -78,16 +79,21 @@ const HomePage: React.FC = () => {
 
     const sourceList = boardData[sourceListIndex];
     const destinationList = boardData[destinationListIndex];
-    console.log(sourceListIndex, destinationListIndex, sourceList, destinationList)
+    console.log(
+      sourceListIndex,
+      destinationListIndex,
+      sourceList,
+      destinationList
+    );
 
     // Handle the logic for reordering items
     // Moving cards between lists
     if (source.droppableId !== destination.droppableId) {
-      const sourceCards = sourceList?.cards
-      console.log('sourceCards', sourceCards)
+      const sourceCards = sourceList?.cards;
+      console.log('sourceCards', sourceCards);
       const [removed] = sourceCards?.splice(source.index, 1); // Remove card from source
-      const destinationCards = destinationList?.cards
-      console.log('destinationCards', destinationCards)
+      const destinationCards = destinationList?.cards;
+      console.log('destinationCards', destinationCards);
       destinationCards.splice(destination.index, 0, removed); // Add card to destination
 
       // Update lists state
@@ -173,7 +179,7 @@ const HomePage: React.FC = () => {
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef} // Make sure to use the ref
                                 >
-                                  {card.cardName}
+                                  <CardData card={card} />
                                 </div>
                               )}
                             </Draggable>
