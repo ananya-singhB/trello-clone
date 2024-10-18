@@ -88,11 +88,27 @@ const boardsReducer = (
         ...state,
         boards: state.boards.map((item) => ({
           ...item,
-          lists: item.lists.filter(
-            (list) =>
-              list.boardId !== action.payload.boardId &&
-              list.listId !== action.payload.listId
-          ),
+          lists:
+            item.id === action.payload.boardId
+              ? item.lists.filter(
+                  (list) => list.listId !== action.payload.listId
+                )
+              : item.lists,
+        })),
+      };
+    case ActionTypes.DISCARD_LIST_CARDS:
+      return {
+        ...state,
+        boards: state.boards.map((item) => ({
+          ...item,
+          lists:
+            item.id === action.payload.boardId
+              ? item.lists.map((list) =>
+                  list.listId === action.payload.listId
+                    ? { ...list, cards: [] }
+                    : list
+                )
+              : item.lists,
         })),
       };
     case ActionTypes.REMOVE_CARD:
