@@ -3,10 +3,10 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import useBoardsContext from '../context/useBoardsContext';
 import AddListOrCard from './add-list-card';
 import { CARD, LIST } from '../constats';
-import { FaEllipsisV } from 'react-icons/fa';
+import { FaEllipsisV, FaPen } from 'react-icons/fa';
 import Popover from '../../utils/popover';
-import { ActionTypes, List } from '../../utils/types';
-import CardData from './card';
+import { ActionTypes, Card, List } from '../../utils/types';
+import Input from './input';
 
 // Under Development
 const HomePage: React.FC = () => {
@@ -25,6 +25,7 @@ const HomePage: React.FC = () => {
       ? boards[Number(currentActiveBoard?.split('-').pop())].lists
       : []
   );
+  const [editingCard, setEditingCard] = useState<Card>();
 
   if (isNaN(Number(currentActiveBoard?.split('-').pop())) || !boards.length) {
     return (
@@ -126,7 +127,21 @@ const HomePage: React.FC = () => {
     }
   };
 
-  console.log('board Data', boardData);
+  const handleUpdate = () => {
+    if (editingCard?.cardName) {
+      dispatch({ type: ActionTypes.UPDATE_CARD, payload: editingCard });
+      setEditingCard(undefined);
+    }
+  };
+
+  const handleChange = (value: string) => {
+    setEditingCard((prev) =>
+      prev?.cardId ? { ...prev, cardName: value } : undefined
+    );
+  };
+
+  console.log('editingCard_______', editingCard?.cardName);
+  // console.log('board Data', boardData);
 
   return (
     <div className='home'>
@@ -179,7 +194,23 @@ const HomePage: React.FC = () => {
                                   {...provided.dragHandleProps}
                                   ref={provided.innerRef} // Make sure to use the ref
                                 >
-                                  <CardData card={card} />
+                                  {editingCard?.cardId === card.cardId ? (
+                                    <Input
+                                      inputType={'textarea'}
+                                      value={card.cardName}
+                                      setValue={handleChange}
+                                      placeholder={'Update card name...'}
+                                      handleSave={handleUpdate}
+                                    />
+                                  ) : (
+                                    <>
+                                      <span>{card.cardName}</span>
+                                      <FaPen
+                                        className='pen'
+                                        onClick={() => setEditingCard(card)}
+                                      />
+                                    </>
+                                  )}
                                 </div>
                               )}
                             </Draggable>
