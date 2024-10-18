@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export type Card = {
   boardId: string;
@@ -27,17 +27,18 @@ export type BoardsState = {
 };
 
 export enum ActionTypes {
-  ADD_NEW_BOARD = "ADD_NEW_BOARD",
-  UPDATE_BOARD = "UPDATE_BOARD",
-  REMOVE_BOARD = "REMOVE_BOARD",
-  ADD_NEW_LIST = "ADD_NEW_LIST",
-  UPDATE_LIST = "UPDATE_LIST",
-  REMOVE_LIST = "REMOVE_LIST",
-  ADD_NEW_CARD = "ADD_NEW_CARD",
-  UPDATE_CARD = "UPDATE_CARD",
-  REMOVE_CARD = "REMOVE_CARD",
-  SET_ACTIVE_BOARD = "SET_ACTIVE_BOARD",
-  SET_SIDEBAR_STATE = "SET_SIDEBAR_STATE",
+  ADD_NEW_BOARD = 'ADD_NEW_BOARD',
+  UPDATE_BOARD = 'UPDATE_BOARD',
+  REMOVE_BOARD = 'REMOVE_BOARD',
+  ADD_NEW_LIST = 'ADD_NEW_LIST',
+  UPDATE_LIST = 'UPDATE_LIST',
+  REMOVE_LIST = 'REMOVE_LIST',
+  ADD_NEW_CARD = 'ADD_NEW_CARD',
+  UPDATE_CARD = 'UPDATE_CARD',
+  REMOVE_CARD = 'REMOVE_CARD',
+  SET_ACTIVE_BOARD = 'SET_ACTIVE_BOARD',
+  SET_SIDEBAR_STATE = 'SET_SIDEBAR_STATE',
+  DISCARD_LIST_CARDS = 'DISCARD_LIST_CARDS',
 }
 
 export type AddNewBoardAction = {
@@ -78,6 +79,10 @@ export type SetSidebarState = {
   type: ActionTypes.SET_SIDEBAR_STATE;
   payload: boolean;
 };
+export type DiscardListCards = {
+  type: ActionTypes.DISCARD_LIST_CARDS;
+  payload: List;
+};
 
 export type BoardActionTypes =
   | AddNewBoardAction
@@ -90,7 +95,8 @@ export type BoardActionTypes =
   | RemoveCardAction
   | UpdateCardAction
   | SetActiveBoard
-  | SetSidebarState;
+  | SetSidebarState
+  | DiscardListCards;
 
 export type BoardContextType = {
   state: BoardsState;

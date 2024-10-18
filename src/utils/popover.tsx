@@ -62,7 +62,7 @@ const Popover = ({
 
       <div className='popover-content'>
         {children.map((child) => (
-          <span className='action-list' onClick={() => child.handleClick(data)}>
+          <span className='action-list' onClick={() => child.handleClick(data)} key={child.title}>
             {child.title}
           </span>
         ))}

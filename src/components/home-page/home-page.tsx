@@ -45,12 +45,17 @@ const HomePage: React.FC = () => {
   const popoverItems = [
     {
       title: 'Discard this list',
-      handleClick: (list: List) =>
-        dispatch({ type: ActionTypes.REMOVE_LIST, payload: list }),
+      handleClick: (list: List) => {
+        console.log('Discard this list', list);
+        dispatch({ type: ActionTypes.REMOVE_LIST, payload: list });
+      },
     },
     {
       title: 'Discard all cards in this list',
-      handleClick: (list: List) => {},
+      handleClick: (list: List) => {
+        console.log('Discard all cards in this list', list);
+        dispatch({ type: ActionTypes.DISCARD_LIST_CARDS, payload: list });
+      },
     },
   ];
 
@@ -140,8 +145,7 @@ const HomePage: React.FC = () => {
     );
   };
 
-  console.log('editingCard_______', editingCard?.cardName);
-  // console.log('board Data', boardData);
+  console.log('editingCard_______', editingCard?.cardName, boards);
 
   return (
     <div className='home'>
