@@ -27,6 +27,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   setEditingCard,
   handleChange,
   handleUpdate,
+  moveCard,
 }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
@@ -36,11 +37,27 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
     }),
   });
 
+  const [{ isOver }, drop] = useDrop({
+    accept: ItemTypes.CARD,
+    hover: (item: { id: string; index: number }) => {
+      if (item.index !== index) {
+        moveCard(item.index, index); // Call moveCard function passed down
+        item.index = index; // Update the index of the dragged item
+      }
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
+
   return (
     <div
-      ref={drag}
+      ref={(node) => drag(drop(node))}
       className='card-content'
-      style={{ opacity: isDragging ? 0.5 : 1 }}
+      style={{
+        opacity: isDragging ? 0.5 : 1,
+        backgroundColor: isOver ? 'lightgray' : 'white',
+      }}
     >
       {editingCard?.cardId === card.cardId ? (
         <Input
@@ -86,7 +103,7 @@ const DraggableList: React.FC<DraggableListProps> = ({
     hover: (item: { id: string; index: number }) => {
       if (item.index !== listIndex) {
         moveList(item.index, listIndex);
-        item.index = listIndex; // Update the dragged item's index
+        item.index = listIndex;
       }
     },
     collect: (monitor) => ({
@@ -94,6 +111,17 @@ const DraggableList: React.FC<DraggableListProps> = ({
       canDrop: monitor.canDrop(),
     }),
   });
+
+  const moveCard = (fromIndex: number, toIndex: number) => {
+    // Implement move card logic
+    console.log('move card', fromIndex, toIndex);
+    console.log(`Move card from ${fromIndex} to ${toIndex}`);
+    const updatedCards = [...list.cards];
+    const [movedCard] = updatedCards.splice(fromIndex, 1);
+    updatedCards.splice(toIndex, 0, movedCard);
+
+    // dispatch({ type: ActionTypes.UPDATE_CARDS, payload: { listId: list.listId, cards: updatedCards } });
+  };
 
   const handleOpenAction = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -162,6 +190,7 @@ const DraggableList: React.FC<DraggableListProps> = ({
             setEditingCard={setEditingCard}
             handleChange={handleChange}
             handleUpdate={handleUpdate}
+            moveCard={moveCard}
           />
         ))}
       </div>
@@ -211,6 +240,7 @@ const HomePage: React.FC = () => {
     ?.lists.length;
 
   const moveList = (fromIndex: number, toIndex: number) => {
+    console.log('from', fromIndex, 'to', toIndex);
     const updatedLists = [
       ...(boards.find((board) => board.id === currentActiveBoard)?.lists || []),
     ];

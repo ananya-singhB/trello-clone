@@ -120,15 +120,6 @@ export type ModalActionPropsType = {
 
 export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
 
-export type DraggableCardProps = {
-  card: Card;
-  index: number;
-  editingCard: Card | undefined;
-  setEditingCard: React.Dispatch<React.SetStateAction<Card | undefined>>;
-  handleChange: (value: string) => void;
-  handleUpdate: () => void;
-};
-
 export type DraggableListProps = {
   list: List;
   listIndex: number;
@@ -140,4 +131,14 @@ export type DraggableListProps = {
   setCurrentActiveList: React.Dispatch<
     React.SetStateAction<number | undefined>
   >;
+};
+
+export type DraggableCardProps = {
+  card: Card;
+  index: number;
+  editingCard: Card | undefined;
+  setEditingCard: React.Dispatch<React.SetStateAction<Card | undefined>>;
+  handleChange: (value: string) => void;
+  handleUpdate: () => void;
+  moveCard: (fromIndex: number, toIndex: number) => void;
 };
