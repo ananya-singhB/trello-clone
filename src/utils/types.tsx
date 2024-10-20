@@ -135,7 +135,7 @@ export type DraggableListProps = {
 
 export type DraggableCardProps = {
   card: Card;
-  index: number;
+  cardIndex: number;
   editingCard: Card | undefined;
   setEditingCard: React.Dispatch<React.SetStateAction<Card | undefined>>;
   handleChange: (value: string) => void;

@@ -22,7 +22,7 @@ const ItemTypes = {
 
 const DraggableCard: React.FC<DraggableCardProps> = ({
   card,
-  index,
+  cardIndex,
   editingCard,
   setEditingCard,
   handleChange,
@@ -31,7 +31,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
 }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
-    item: { id: card.cardId, index },
+    item: { id: card.cardId, cardIndex },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -40,9 +40,9 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.CARD,
     hover: (item: { id: string; index: number }) => {
-      if (item.index !== index) {
-        moveCard(item.index, index); // Call moveCard function passed down
-        item.index = index; // Update the index of the dragged item
+      if (item.index !== cardIndex) {
+        moveCard(item.index, cardIndex);
+        item.index = cardIndex;
       }
     },
     collect: (monitor) => ({
@@ -185,7 +185,7 @@ const DraggableList: React.FC<DraggableListProps> = ({
           <DraggableCard
             key={card.cardId}
             card={card}
-            index={cardIndex}
+            cardIndex={cardIndex}
             editingCard={editingCard}
             setEditingCard={setEditingCard}
             handleChange={handleChange}
