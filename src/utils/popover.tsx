@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
 const Popover = ({
@@ -16,27 +16,27 @@ const Popover = ({
 }) => {
   const popoverRef = useRef<HTMLDivElement | null>(null);
 
-  const handleClickOutside = (event: { target: any }) => {
-    if (
-      popoverRef.current &&
-      !popoverRef.current?.contains(event.target as Node)
-    ) {
-      onClose();
-    }
-  };
+  // const handleClickOutside = (event: { target: any }) => {
+  //   console.log('handleClickOutside :::');
+  //   if (
+  //     popoverRef.current &&
+  //     !popoverRef.current?.contains(event.target as Node)
+  //   ) {
+  //     onClose();
+  //   }
+  // };
 
-  useEffect(() => {
-    if (anchorEl) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [anchorEl]);
+  // useEffect(() => {
+  //   if (anchorEl) {
+  //     document.addEventListener('mousedown', handleClickOutside);
+  //   } else {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   }
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [anchorEl]);
 
   if (!anchorEl) {
     return null;
@@ -60,13 +60,21 @@ const Popover = ({
         </div>
       </div>
 
-      <div className='popover-content'>
-        {children.map((child) => (
-          <span className='action-list' onClick={() => child.handleClick(data)} key={child.title}>
-            {child.title}
-          </span>
-        ))}
-      </div>
+      {/* <div className='popover-content'> */}
+      {children.map((child, index) => (
+        <div
+          className='action-list'
+          onClick={() => {
+            console.log('child.handleClick', data);
+            // child.handleClick(data);
+            // onClose();
+          }}
+          key={`action-${index}`}
+        >
+          {child.title}
+        </div>
+      ))}
+      {/* </div> */}
     </div>
   );
 };
