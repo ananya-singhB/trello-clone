@@ -137,6 +137,30 @@ const boardsReducer = (
         ...state,
         isSidebarOpen: action.payload,
       };
+    case ActionTypes.REARRANGE_CARDS_IN_LIST: {
+      return {
+        ...state,
+        boards: state.boards.map((board) =>
+          board.id === action.payload.boardId
+            ? {
+                ...board,
+                lists: board.lists.map((list) =>
+                  list.listId === action.payload.listId
+                    ? {
+                        ...list,
+                        cards: action.payload.cards,
+                      }
+                    : list
+                ),
+              }
+            : board
+        ),
+      };
+    }
+    case ActionTypes.REARRANGE_CARDS_INTER_LIST: {
+      // Rearrage cards inter lists
+      return { ...state };
+    }
     default:
       return state;
   }

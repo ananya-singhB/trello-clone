@@ -39,6 +39,8 @@ export enum ActionTypes {
   SET_ACTIVE_BOARD = 'SET_ACTIVE_BOARD',
   SET_SIDEBAR_STATE = 'SET_SIDEBAR_STATE',
   DISCARD_LIST_CARDS = 'DISCARD_LIST_CARDS',
+  REARRANGE_CARDS_IN_LIST = 'REARRANGE_CARDS_IN_LIST',
+  REARRANGE_CARDS_INTER_LIST = 'REARRANGE_CARDS_INTER_LIST',
 }
 
 export type AddNewBoardAction = {
@@ -83,6 +85,21 @@ export type DiscardListCards = {
   type: ActionTypes.DISCARD_LIST_CARDS;
   payload: List;
 };
+export type RearrangeCardsInList = {
+  type: ActionTypes.REARRANGE_CARDS_IN_LIST;
+  payload: {
+    listId: string;
+    boardId: string;
+    cards: Card[];
+  };
+};
+export type RearrangeCardsInterList = {
+  type: ActionTypes.REARRANGE_CARDS_INTER_LIST;
+  payload: {
+    boardId: string;
+    lists: List[];
+  };
+};
 
 export type BoardActionTypes =
   | AddNewBoardAction
@@ -96,7 +113,9 @@ export type BoardActionTypes =
   | UpdateCardAction
   | SetActiveBoard
   | SetSidebarState
-  | DiscardListCards;
+  | DiscardListCards
+  | RearrangeCardsInList
+  | RearrangeCardsInterList;
 
 export type BoardContextType = {
   state: BoardsState;
@@ -119,3 +138,38 @@ export type ModalActionPropsType = {
 };
 
 export type ArrayElement<A> = A extends readonly (infer T)[] ? T : never;
+
+export type DraggableListProps = {
+  list: List;
+  listIndex: number;
+  moveList: (fromIndex: number, toIndex: number) => void;
+  currentActiveList: number | undefined;
+  toAddCard: boolean;
+  setIsToAddList: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsToAddCard: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentActiveList: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
+  moveCard: (
+    fromIndex: number,
+    toIndex: number,
+    fromList: number,
+    toList: number
+  ) => void;
+};
+
+export type DraggableCardProps = {
+  card: Card;
+  cardIndex: number;
+  listIndex: number;
+  editingCard: Card | undefined;
+  setEditingCard: React.Dispatch<React.SetStateAction<Card | undefined>>;
+  handleChange: (value: string) => void;
+  handleUpdate: () => void;
+  moveCard: (
+    fromIndex: number,
+    toIndex: number,
+    fromList: number,
+    toList: number
+  ) => void;
+};
