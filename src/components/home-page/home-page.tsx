@@ -23,6 +23,7 @@ const ItemTypes = {
 const DraggableCard: React.FC<DraggableCardProps> = ({
   card,
   cardIndex,
+  listIndex,
   editingCard,
   setEditingCard,
   handleChange,
@@ -31,7 +32,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
 }) => {
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.CARD,
-    item: { id: card.cardId, cardIndex },
+    item: { id: card.cardId, indexOfCard: cardIndex, indexOfList: listIndex },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -39,10 +40,9 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
 
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.CARD,
-    hover: (item: { id: string; index: number }) => {
-      if (item.index !== cardIndex) {
-        moveCard(item.index, cardIndex);
-        item.index = cardIndex;
+    hover: (item: { id: string; indexOfCard: number; indexOfList: number }) => {
+      if (item.id !== card.cardId) {
+        moveCard(item.indexOfCard, cardIndex, item.indexOfList, listIndex);
       }
     },
     collect: (monitor) => ({
@@ -80,6 +80,7 @@ const DraggableCard: React.FC<DraggableCardProps> = ({
 const DraggableList: React.FC<DraggableListProps> = ({
   list,
   listIndex,
+  moveCard,
   moveList,
   currentActiveList,
   toAddCard,
@@ -111,17 +112,6 @@ const DraggableList: React.FC<DraggableListProps> = ({
       canDrop: monitor.canDrop(),
     }),
   });
-
-  const moveCard = (fromIndex: number, toIndex: number) => {
-    // Implement move card logic
-    console.log('move card', fromIndex, toIndex);
-    console.log(`Move card from ${fromIndex} to ${toIndex}`);
-    const updatedCards = [...list.cards];
-    const [movedCard] = updatedCards.splice(fromIndex, 1);
-    updatedCards.splice(toIndex, 0, movedCard);
-
-    // dispatch({ type: ActionTypes.UPDATE_CARDS, payload: { listId: list.listId, cards: updatedCards } });
-  };
 
   const handleOpenAction = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -186,6 +176,7 @@ const DraggableList: React.FC<DraggableListProps> = ({
             key={card.cardId}
             card={card}
             cardIndex={cardIndex}
+            listIndex={listIndex}
             editingCard={editingCard}
             setEditingCard={setEditingCard}
             handleChange={handleChange}
@@ -221,6 +212,7 @@ const DraggableList: React.FC<DraggableListProps> = ({
 const HomePage: React.FC = () => {
   const {
     state: { currentActiveBoard, boards },
+    dispatch,
   } = useBoardsContext();
   const [toAddList, setIsToAddList] = useState(true);
   const [toAddCard, setIsToAddCard] = useState(false);
@@ -240,7 +232,7 @@ const HomePage: React.FC = () => {
     ?.lists.length;
 
   const moveList = (fromIndex: number, toIndex: number) => {
-    console.log('from', fromIndex, 'to', toIndex);
+    console.log('Move from', fromIndex, 'to', toIndex);
     const updatedLists = [
       ...(boards.find((board) => board.id === currentActiveBoard)?.lists || []),
     ];
@@ -248,6 +240,37 @@ const HomePage: React.FC = () => {
     updatedLists.splice(toIndex, 0, movedList);
 
     // dispatch({ type: ActionTypes.UPDATE_LISTS, payload: { boardId: currentActiveBoard, lists: updatedLists } });
+  };
+
+  const moveCard = (
+    fromIndex: number,
+    toIndex: number,
+    fromList: number,
+    toList: number
+  ) => {
+    console.log(
+      `Move card from ${fromIndex} to ${toIndex} from ${fromList} to ${toList}`
+    );
+    if (fromList === toList) {
+      const board = boards?.find((item) => item.id === currentActiveBoard);
+      const lists = board?.lists;
+      const cards = board?.lists[toList]?.cards;
+      if (lists?.length && cards?.length) {
+        const updatedCards = [...cards];
+        const toMove = updatedCards[fromIndex];
+        const listId = toMove.listId;
+        const boardId = toMove.boardId;
+        updatedCards.splice(fromIndex, 1);
+        updatedCards.splice(toIndex, 0, toMove);
+
+        dispatch({
+          type: ActionTypes.REARRANGE_CARDS_IN_LIST,
+          payload: { boardId, listId, cards: updatedCards },
+        });
+      }
+    } else {
+      //
+    }
   };
 
   return (
@@ -269,6 +292,7 @@ const HomePage: React.FC = () => {
                     setIsToAddList={setIsToAddList}
                     setIsToAddCard={setIsToAddCard}
                     setCurrentActiveList={setCurrentActiveList}
+                    moveCard={moveCard}
                   />
                 ))}
               </div>

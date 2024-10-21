@@ -73,7 +73,7 @@ const AddListOrCard = ({
       const cardId = currentLists[0][id].cards.length;
       setCardData((prev) => ({
         ...prev,
-        cardId: `card-${cardId}`,
+        cardId: `card-${id}${cardId}`,
         listId: `list-${id}`,
       }));
     }
