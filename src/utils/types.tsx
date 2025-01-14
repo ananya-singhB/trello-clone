@@ -162,10 +162,6 @@ export type DraggableCardProps = {
   card: Card;
   cardIndex: number;
   listIndex: number;
-  editingCard: Card | undefined;
-  setEditingCard: React.Dispatch<React.SetStateAction<Card | undefined>>;
-  handleChange: (value: string) => void;
-  handleUpdate: () => void;
   moveCard: (
     fromIndex: number,
     toIndex: number,

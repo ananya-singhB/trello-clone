@@ -66,8 +66,8 @@ const Popover = ({
           className='action-list'
           onClick={() => {
             console.log('child.handleClick', data);
-            // child.handleClick(data);
-            // onClose();
+            child.handleClick(data);
+            onClose();
           }}
           key={`action-${index}`}
         >
