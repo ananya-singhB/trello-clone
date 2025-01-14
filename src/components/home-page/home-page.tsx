@@ -4,77 +4,18 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import useBoardsContext from '../context/useBoardsContext';
 import AddListOrCard from './add-list-card';
 import { CARD, LIST } from '../constats';
-import { FaEllipsisV, FaPen } from 'react-icons/fa';
+import { FaEllipsisV } from 'react-icons/fa';
 import Popover from '../../utils/popover';
 import {
   ActionTypes,
-  Card,
-  DraggableCardProps,
   DraggableListProps,
   List,
 } from '../../utils/types';
-import Input from './input';
+import DraggableCard from './dragable-card';
 
 const ItemTypes = {
   CARD: 'card',
   LIST: 'list',
-};
-
-const DraggableCard: React.FC<DraggableCardProps> = ({
-  card,
-  cardIndex,
-  listIndex,
-  editingCard,
-  setEditingCard,
-  handleChange,
-  handleUpdate,
-  moveCard,
-}) => {
-  const [{ isDragging }, drag] = useDrag({
-    type: ItemTypes.CARD,
-    item: { id: card.cardId, indexOfCard: cardIndex, indexOfList: listIndex },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
-  const [{ isOver }, drop] = useDrop({
-    accept: ItemTypes.CARD,
-    hover: (item: { id: string; indexOfCard: number; indexOfList: number }) => {
-      if (item.id !== card.cardId) {
-        moveCard(item.indexOfCard, cardIndex, item.indexOfList, listIndex);
-      }
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  });
-
-  return (
-    <div
-      ref={(node) => drag(drop(node))}
-      className='card-content'
-      style={{
-        opacity: isDragging ? 0.5 : 1,
-        backgroundColor: isOver ? 'lightgray' : 'white',
-      }}
-    >
-      {editingCard?.cardId === card.cardId ? (
-        <Input
-          inputType={'textarea'}
-          value={card.cardName}
-          setValue={handleChange}
-          placeholder={'Update card name...'}
-          handleSave={handleUpdate}
-        />
-      ) : (
-        <>
-          <span>{card.cardName}</span>
-          <FaPen className='pen' onClick={() => setEditingCard(card)} />
-        </>
-      )}
-    </div>
-  );
 };
 
 const DraggableList: React.FC<DraggableListProps> = ({
@@ -89,7 +30,6 @@ const DraggableList: React.FC<DraggableListProps> = ({
   setCurrentActiveList,
 }) => {
   const { dispatch } = useBoardsContext();
-  const [editingCard, setEditingCard] = useState<Card | undefined>();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.LIST,
@@ -134,19 +74,6 @@ const DraggableList: React.FC<DraggableListProps> = ({
     },
   ];
 
-  const handleUpdate = () => {
-    if (editingCard?.cardName) {
-      dispatch({ type: ActionTypes.UPDATE_CARD, payload: editingCard });
-      setEditingCard(undefined);
-    }
-  };
-
-  const handleChange = (value: string) => {
-    setEditingCard((prev) =>
-      prev?.cardId ? { ...prev, cardName: value } : undefined
-    );
-  };
-
   return (
     <div
       ref={drop}
@@ -177,10 +104,6 @@ const DraggableList: React.FC<DraggableListProps> = ({
             card={card}
             cardIndex={cardIndex}
             listIndex={listIndex}
-            editingCard={editingCard}
-            setEditingCard={setEditingCard}
-            handleChange={handleChange}
-            handleUpdate={handleUpdate}
             moveCard={moveCard}
           />
         ))}

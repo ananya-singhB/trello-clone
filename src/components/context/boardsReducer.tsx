@@ -1,4 +1,4 @@
-import { ActionTypes, BoardActionTypes, BoardsState } from '../../utils/types';
+import { ActionTypes, BoardActionTypes, BoardsState } from '../../utils/types'
 
 const boardsReducer = (
   state: BoardsState,
@@ -6,12 +6,12 @@ const boardsReducer = (
 ): BoardsState => {
   switch (action.type) {
     case ActionTypes.ADD_NEW_BOARD:
-      return { ...state, boards: [...state.boards, action.payload] };
+      return { ...state, boards: [...state.boards, action.payload] }
     case ActionTypes.REMOVE_BOARD: {
       return {
         ...state,
         boards: state.boards.filter(({ id }) => id !== action.payload),
-      };
+      }
     }
     case ActionTypes.UPDATE_BOARD:
       return {
@@ -19,7 +19,7 @@ const boardsReducer = (
         boards: state.boards.map((item) =>
           item.id === action.payload.id ? action.payload : item
         ),
-      };
+      }
     case ActionTypes.ADD_NEW_LIST:
       return {
         ...state,
@@ -28,7 +28,7 @@ const boardsReducer = (
             ? { ...item, lists: [...item.lists, action.payload] }
             : item
         ),
-      };
+      }
     case ActionTypes.ADD_NEW_CARD:
       return {
         ...state,
@@ -47,7 +47,7 @@ const boardsReducer = (
               }
             : item
         ),
-      };
+      }
     case ActionTypes.UPDATE_LIST: {
       return {
         ...state,
@@ -60,7 +60,7 @@ const boardsReducer = (
               : list
           ),
         })),
-      };
+      }
     }
     case ActionTypes.UPDATE_CARD: {
       return {
@@ -81,36 +81,38 @@ const boardsReducer = (
               : list
           ),
         })),
-      };
+      }
     }
     case ActionTypes.REMOVE_LIST:
       return {
         ...state,
-        boards: state.boards.map((item) => ({
-          ...item,
-          lists:
-            item.id === action.payload.boardId
-              ? item.lists.filter(
+        boards: state.boards.map((item) => {
+          return item.id === action.payload.boardId
+            ? {
+                ...item,
+                lists: item.lists.filter(
                   (list) => list.listId !== action.payload.listId
-                )
-              : item.lists,
-        })),
-      };
+                ),
+              }
+            : item
+        }),
+      }
     case ActionTypes.DISCARD_LIST_CARDS:
       return {
         ...state,
-        boards: state.boards.map((item) => ({
-          ...item,
-          lists:
-            item.id === action.payload.boardId
-              ? item.lists.map((list) =>
+        boards: state.boards.map((item) => {
+          return item.id === action.payload.boardId
+            ? {
+                ...item,
+                lists: item.lists.map((list) =>
                   list.listId === action.payload.listId
                     ? { ...list, cards: [] }
                     : list
-                )
-              : item.lists,
-        })),
-      };
+                ),
+              }
+            : item
+        }),
+      }
     case ActionTypes.REMOVE_CARD:
       return {
         ...state,
@@ -126,17 +128,17 @@ const boardsReducer = (
             ),
           })),
         })),
-      };
+      }
     case ActionTypes.SET_ACTIVE_BOARD:
       return {
         ...state,
         currentActiveBoard: action.payload,
-      };
+      }
     case ActionTypes.SET_SIDEBAR_STATE:
       return {
         ...state,
         isSidebarOpen: action.payload,
-      };
+      }
     case ActionTypes.REARRANGE_CARDS_IN_LIST: {
       return {
         ...state,
@@ -155,15 +157,15 @@ const boardsReducer = (
               }
             : board
         ),
-      };
+      }
     }
     case ActionTypes.REARRANGE_CARDS_INTER_LIST: {
       // Rearrage cards inter lists
-      return { ...state };
+      return { ...state }
     }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default boardsReducer;
+export default boardsReducer
