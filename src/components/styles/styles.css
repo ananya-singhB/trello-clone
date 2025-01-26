@@ -87,7 +87,7 @@
   flex-direction: row;
   color: #792d86;
   align-items: flex-start;
-  width: 98%;
+  width: 98.5%;
   padding: 10px;
   justify-content: flex-start;
   overflow: scroll;
@@ -97,6 +97,7 @@
     display: flex;
     flex: 1;
     justify-content: center;
+    align-items: center
   }
 }
 

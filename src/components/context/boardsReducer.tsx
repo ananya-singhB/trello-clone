@@ -163,6 +163,15 @@ const boardsReducer = (
       // Rearrage cards inter lists
       return { ...state }
     }
+    case ActionTypes.REARRANGE_LISTS: {
+      return { ...state,
+        boards: state.boards.map((board) => 
+          board.id === action.payload.boardId ? {
+            ...board, lists: action.payload.lists
+          } : board
+        )
+       }
+    }
     default:
       return state
   }

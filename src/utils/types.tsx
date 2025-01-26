@@ -41,6 +41,7 @@ export enum ActionTypes {
   DISCARD_LIST_CARDS = 'DISCARD_LIST_CARDS',
   REARRANGE_CARDS_IN_LIST = 'REARRANGE_CARDS_IN_LIST',
   REARRANGE_CARDS_INTER_LIST = 'REARRANGE_CARDS_INTER_LIST',
+  REARRANGE_LISTS = 'REARRANGE_LISTS'
 }
 
 export type AddNewBoardAction = {
@@ -100,6 +101,13 @@ export type RearrangeCardsInterList = {
     lists: List[];
   };
 };
+export type RearrangeLists = {
+  type: ActionTypes.REARRANGE_LISTS
+  payload: {
+    boardId: string;
+    lists: List[];
+  }
+}
 
 export type BoardActionTypes =
   | AddNewBoardAction
@@ -115,7 +123,8 @@ export type BoardActionTypes =
   | SetSidebarState
   | DiscardListCards
   | RearrangeCardsInList
-  | RearrangeCardsInterList;
+  | RearrangeCardsInterList
+  | RearrangeLists;
 
 export type BoardContextType = {
   state: BoardsState;
