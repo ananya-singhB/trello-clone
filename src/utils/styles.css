@@ -13,7 +13,7 @@
   border-radius: 25px;
   z-index: 1000;
   position: fixed;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
